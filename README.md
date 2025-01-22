@@ -1,0 +1,2 @@
+# CodeRivals
+no
