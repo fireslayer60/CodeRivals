@@ -12,7 +12,9 @@ function SignUp() {
         <p>Welcome to Code Rivals Community!</p>
         <button type="submit" className={styles.google}><FcGoogle className={styles.gicon}/>Login with Google</button>
         <div className={styles.breaker}>
-
+                <div className={styles.line}></div>
+                <p>or</p>
+                <div className={styles.line}></div>
         </div>
         <form className={styles.form}>
         
@@ -21,12 +23,18 @@ function SignUp() {
           <p>Forgot password?</p>
           <button type="submit" className={styles.login}>Login</button>
         </form>
+        <div className={styles.account}>
+        <p>Don't have an account? </p>
+        <p className={styles.accountsign}>Sign Up!</p>
       </div>
+      </div>
+      
 
       
       <div className={styles.img}>
         <img src={bg} alt="Background" />
       </div>
+      
     </div>
   );
 }

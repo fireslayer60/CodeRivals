@@ -35,7 +35,7 @@ html, body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 0px;
 }
 .google{
     border-radius: 10px;
@@ -50,12 +50,34 @@ html, body {
     color:var(--dark-card);
     margin-top: 0;
     font-family: "Poppins", serif;
-    margin-bottom: 10px;
+    
 }
 .gicon{
     height: 30px;
     width: 30px;
     margin-right: 5px;
+}
+.breaker {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; 
+    gap: 10px;
+    margin:0;
+}
+
+.line {
+    background-color: var(--light-text);
+    width: 75px;
+    margin:0;
+    height: 1px;
+}
+
+.breaker p {
+    padding-top: 37px; 
+    color: var(--light-text); 
+    margin:0;
+    
 }
 .form{
     display: flex;
@@ -73,6 +95,10 @@ html, body {
     width: 350px;
     border: none;
 }
+.form input::placeholder{
+    font-family: "Poppins", serif;
+}
+
 .form p{
     margin-bottom: 0;
     padding-bottom: 0;
@@ -89,6 +115,21 @@ html, body {
     margin-top: 0;
     font-family: "Poppins", serif;
 
+}
+.account{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; 
+    justify-items: center;
+    gap: 5px;
+    margin:0;
+    padding-top: 10px;
+
+}
+.accountsign{
+    color: var(--accent);
+    cursor: pointer;
 }
 
 .img {
