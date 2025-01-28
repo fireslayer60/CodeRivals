@@ -1,0 +1,8 @@
+:root {
+    --dark-bg: #222831;
+    --dark-card: #393E46;
+    --accent: #00ADB5;
+    --light-text: #EEEEEE;
+    background-color: var(--dark-bg);
+  }
+
