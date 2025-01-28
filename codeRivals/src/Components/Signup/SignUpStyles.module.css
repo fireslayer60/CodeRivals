@@ -104,6 +104,7 @@ html, body {
     padding-bottom: 0;
     align-self: flex-end;
     font-size: 14px;
+    color : var(--accent);
 }
 .login{
     border-radius: 40px;
