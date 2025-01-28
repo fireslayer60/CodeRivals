@@ -105,6 +105,7 @@ html, body {
     align-self: flex-end;
     font-size: 14px;
     color : var(--accent);
+    cursor: pointer;
 }
 .login{
     border-radius: 40px;
