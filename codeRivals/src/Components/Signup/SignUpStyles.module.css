@@ -50,11 +50,15 @@ html, body {
     color:var(--dark-card);
     margin-top: 0;
     font-family: "Poppins", serif;
+    white-space: nowrap;
     
 }
 .gicon{
     height: 30px;
     width: 30px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+
     margin-right: 5px;
 }
 .breaker {
@@ -107,6 +111,13 @@ html, body {
     color : var(--accent);
     cursor: pointer;
 }
+.error {
+    color: red;
+    font-size: 10px;
+    height: 15px;
+    margin:0;
+    display: block;
+  }
 .login{
     border-radius: 40px;
     height: 50px;
