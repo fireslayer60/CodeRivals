@@ -3,15 +3,18 @@ import styles from "./SignUpStyles.module.css";
 import bg from "../../assets/bg.png";
 import { FcGoogle } from "react-icons/fc";
 import { auth, provider, signInWithPopup } from '../../firebaseConfig.js';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate(); 
 
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       setUser(result.user); 
       console.log("User Info:", result.user);
+      navigate("/home");
     } catch (error) {
       console.error("Google Sign-In Error:", error.message);
     }
