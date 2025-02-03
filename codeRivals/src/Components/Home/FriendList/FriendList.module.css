@@ -1,0 +1,68 @@
+/* FriendsList.module.css */
+
+:root {
+    --dark-bg: #222831;
+    --dark-card: #393E46;
+    --accent: #00ADB5;
+    --light-text: #EEEEEE;
+  }
+  
+  .friendsListContainer {
+    background-color: var(--dark-card);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .friendsListTitle {
+    font-size: 24px;
+    color: var(--light-text);
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .friendsList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .friendItem {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--dark-bg);
+    border-radius: 6px;
+    color: var(--light-text);
+  }
+  
+  .friendImage {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .friendName {
+    flex: 1;
+    font-weight: bold;
+  }
+  
+  .status {
+    font-size: 14px;
+    font-weight: normal;
+    padding-left: 10px;
+  }
+  
+  .online {
+    color: green;
+  }
+  
+  .offline {
+    color: grey;
+  }
+  
