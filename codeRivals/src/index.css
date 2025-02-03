@@ -4,5 +4,6 @@
     --accent: #00ADB5;
     --light-text: #EEEEEE;
     background-color: var(--dark-bg);
+    font-family: "Poppins", serif;
   }
 
