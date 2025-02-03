@@ -1,0 +1,49 @@
+.navbar {
+    background-color: var(--dark-card);
+    padding: 15px 50px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .navbarContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbarLinks {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbarLinks li {
+    margin: 0 20px;
+  }
+  
+  .navbarLink {
+    color: var(--light-text);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .navbarLink:hover {
+    color: var(--accent);
+  }
+  
+  .profileAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  
+  .profileContainer {
+    display: flex;
+    align-items: center;
+  }

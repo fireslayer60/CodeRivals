@@ -1,0 +1,79 @@
+/* Leaderboard.module.css */
+
+:root {
+    --dark-bg: #222831;
+    --dark-card: #393E46;
+    --accent: #00ADB5;
+    --light-text: #EEEEEE;
+    --rank-color-gold: #FFD700;
+    --rank-color-silver: #C0C0C0;
+    --rank-color-bronze: #CD7F32;
+  }
+  
+  .leaderboardContainer {
+    background-color: var(--dark-card);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .leaderboardTitle {
+    font-size: 24px;
+    color: var(--light-text);
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .leaderboardList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .leaderboardItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--dark-bg);
+    border-radius: 6px;
+    color: var(--light-text);
+  }
+  
+  .rank {
+    font-weight: bold;
+  }
+  
+  .playerName {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .playerPoints {
+    font-weight: bold;
+    color: var(--accent);
+
+  }
+  
+  .tier {
+    margin-left: 10px;
+    font-style: italic;
+   
+  }
+  .rankimg{
+    margin-top: 5px;
+    height: 25px;
+    width: 30px;
+  }
+  .leaderboardItem:nth-child(1){
+    background-color: var(--rank-color-gold);
+  }
+  .leaderboardItem:nth-child(2){
+    background-color: var(--rank-color-silver);
+  }
+  .leaderboardItem:nth-child(3){
+    background-color: var(--rank-color-bronze);
+  }
