@@ -10,7 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-java": "github:codemirror/lang-java",
+    "@codemirror/lang-javascript": "^6.2.2",
+    "@codemirror/lang-python": "github:codemirror/lang-python",
     "@tsparticles/all": "^3.8.1",
+    "@uiw/react-codemirror": "^4.23.8",
+    "axios": "^1.7.9",
     "dotenv": "^16.4.7",
     "firebase": "^11.2.0",
     "react": "^18.3.1",
