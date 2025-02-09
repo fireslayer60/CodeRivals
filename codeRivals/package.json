@@ -16,6 +16,7 @@
     "@tsparticles/all": "^3.8.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    
     "express-validator": "^7.2.1",
     "firebase": "^11.2.0",
     "firebase-admin": "^13.0.2",
