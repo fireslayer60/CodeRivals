@@ -1,0 +1,60 @@
+.duelContainer {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Left Section - Question */
+  .leftSection {
+    width: 30%;
+    padding: 20px;
+    background: #1e1e1e;
+    color: white;
+    border-right: 2px solid #444;
+  }
+  
+  /* Right Section */
+  .rightSection {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Code Editor */
+  .ideSection {
+    flex: 1;
+    padding: 20px;
+    background: #2e2e2e;
+    color: black;
+     /* Adjust height as needed */
+  overflow-y: auto;
+    
+  }
+  .CodeMirror{
+    max-height: 350px;
+    overflow-y: auto;
+    
+  }
+  
+  .runButton {
+    margin-top: 10px;
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  /* Output Section */
+  .outputSection {
+    height: 30%;
+    padding: 20px;
+    background: #1c1c1c;
+    color: white;
+  }
+  
+  .output, .error {
+    background: black;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  .error {
+    color: red;
+  }
+  

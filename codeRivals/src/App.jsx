@@ -3,6 +3,7 @@ import SignUp from './Components/Signup/SignUp.jsx';
 import socket from './socket.js';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home/Home.jsx';
+import DuelPage from './Components/Duel/DuelPage.jsx';
 
 
 function App() {
@@ -23,7 +24,8 @@ function App() {
     <Router>
     <Routes>
       <Route path="/" element={<SignUp />} /> {/* SignUp page */}
-      <Route path="/home" element={<Home />} /> {/* Dashboard page */}
+      <Route path="/home" element={<Home />} /> 
+      <Route path="/duel" element={<DuelPage />} /> 
     </Routes>
   </Router>
     

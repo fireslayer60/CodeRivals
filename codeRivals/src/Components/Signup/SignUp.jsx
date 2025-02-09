@@ -14,7 +14,7 @@ function SignUp() {
       const result = await signInWithPopup(auth, provider);
       setUser(result.user); 
       console.log("User Info:", result.user);
-      navigate("/home");
+      navigate("/duel");
     } catch (error) {
       console.error("Google Sign-In Error:", error.message);
     }

@@ -3,6 +3,7 @@ import socket from '../../../socket.js';
 import styles from "./LeftStyels.module.css";
 import bronze from "../../../assets/bronze.png"; 
 import pfp from "../../../assets/meme.jpg"; 
+import { useNavigate } from 'react-router-dom';
 
 const recentGames = [
     { opponent: "Player123", result: "Win", rankChange: "+10" },
@@ -11,6 +12,7 @@ const recentGames = [
   ];
 
 function LeftSection() {
+  const navigate = useNavigate(); 
   const [rank, setRank] = useState("Bronze");
   const [rankProgress, setRankProgress] = useState(60); // Example progress in %
   const [statust, setStatus] = useState('Click "Find Match" to start');
@@ -22,6 +24,8 @@ function LeftSection() {
             socket.on('match_found', ({ room, player1, player2 }) => {
               
               setStatus(`Matched! Room: ${room} | ${player1} vs ${player2} i am ${socket.id}`);
+              navigate("/duel");
+
             });
         
         
