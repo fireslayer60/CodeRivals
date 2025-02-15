@@ -24,7 +24,7 @@ function LeftSection() {
             socket.on('match_found', ({ room, player1, player2 }) => {
               
               setStatus(`Matched! Room: ${room} | ${player1} vs ${player2} i am ${socket.id}`);
-              navigate("/duel");
+              navigate(`/duel?room=${room}`);
 
             });
         

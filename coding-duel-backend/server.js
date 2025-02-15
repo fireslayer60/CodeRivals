@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import pool from "./db.js"; // PostgreSQL connection
+import { Console } from "console";
 
 dotenv.config();
 
@@ -65,6 +66,12 @@ io.on("connection", (socket) => {
     } else {
       console.log("Not enough players");
     }
+  });
+
+  socket.on("Won",({room_id,winner})=>{
+    io.to(room_id).emit("Match Over",{winner});
+    io.socketsLeave(room_id);
+
   });
 
   socket.on("disconnect", () => {
