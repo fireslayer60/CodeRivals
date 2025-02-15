@@ -43,14 +43,16 @@
   
   /* Output Section */
   .outputSection {
-    height: 30%;
+    overflow-y: auto;
+    max-height: 200px;
+    
     padding: 20px;
-    background: #1c1c1c;
+    background: #2e2e2e;
     color: white;
   }
   
   .output, .error {
-    background: black;
+    background: #2e2e2e;
     padding: 10px;
     border-radius: 5px;
   }
