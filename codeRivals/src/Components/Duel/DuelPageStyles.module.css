@@ -10,6 +10,7 @@
     background: #1e1e1e;
     color: white;
     border-right: 2px solid #444;
+    overflow-y: auto;
   }
   
   /* Right Section */
@@ -44,7 +45,7 @@
   /* Output Section */
   .outputSection {
     overflow-y: auto;
-    max-height: 200px;
+    max-height: 250px;
     
     padding: 20px;
     background: #2e2e2e;
