@@ -30,7 +30,7 @@ const DuelPage = () => {
       if (winner === socket.id) {
         alert("Congrats! You Won ");
       } else {
-        alert("Sorry, You Lost ");
+        alert("Sorry, You Lost");
       }
       setTimeout(() => navigate("/home"), 10000);
     };
