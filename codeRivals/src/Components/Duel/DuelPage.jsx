@@ -15,16 +15,55 @@ const DuelPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   
-  const testCases = [
-    { input: "hello\n", expected: "olleh\n" },
-    { input: "balls\n", expected: "sllab\n" },
-    { input: "bruv\n", expected: "vurb\n" },
-  ];
+  
+
+
+  
   
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const room_id = queryParams.get("room");
+  const { question_id } = location.state || {}; 
+  let inputCases = question_id.input_cases;
+  let outputCases = question_id.output_cases;
+  inputCases = inputCases.slice(1, inputCases.length - 1); 
+  outputCases = outputCases.slice(1, outputCases.length - 1);
+  
+  const inpC = inputCases.split(",");
+  const OutC = outputCases.split(",");
+  inpC.forEach((item, index) => {
+    if(index===0){
+      inpC[index] = item.slice(1, item.length - 1); 
+      inpC[index] = inpC[index].replace(/\\n/g, '\n');
+    }
+    else{
+      inpC[index] = item.slice(2, item.length - 1); 
+      inpC[index] = inpC[index].replace(/\\n/g, '\n');
+    }
+    
+  });
 
+  OutC.forEach((item, index) => {
+    if(index===0){
+      OutC[index] = item.slice(1, item.length - 1); 
+      OutC[index] = OutC[index].replace(/\\n/g, '\n');
+    }
+    else{
+      OutC[index] = item.slice(2, item.length - 1); 
+      OutC[index] = OutC[index].replace(/\\n/g, '\n');
+    }
+    
+  });
+  
+  
+  // Format the testCases from the input and output arrays
+  const testCases = inpC.map((inpC, index) => ({
+    input: inpC,   // Remove first and last element from `input`
+    expected: OutC[index], // Remove first and last element from `expected`
+  }));
+  
+  
+  
   useEffect(() => {
     const handleMatchOver = ({ winner }) => {
       if (winner === socket.id) {
@@ -93,10 +132,13 @@ const DuelPage = () => {
   return (
     <div className={styles.duelContainer}>
       <div className={styles.leftSection}>
-        <h2>{question.title}</h2>
-        <p>{question.description}</p>
-        <p><strong>Example:</strong> {question.example}</p>
-      </div>
+  <h2>Problem Statement</h2>
+  {question_id.problem.split('\n').map((line, index) => (
+    <p key={index}>{line}</p>
+  ))}
+  
+</div>
+
       <div className={styles.rightSection}>
         <div className={styles.ideSection}>
           <h3>Code Editor</h3>
