@@ -7,6 +7,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import pool from "./db.js"; // PostgreSQL connection
 import { Console } from "console";
+import authRoutes from "./routes/auth.js";
 
 import fs from "fs";
 import Papa from "papaparse";
@@ -20,6 +21,8 @@ app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Adjust frontend URL
 app.use(morgan("dev"));
 app.use(cookieParser());
+
+app.use("/api", authRoutes); // ✅ Enables /api/signup route
 
 // ✅ Test Database Connection
 pool.query("SELECT NOW()", (err, res) => {
@@ -40,38 +43,33 @@ const io = new Server(server, {
   cors: { origin: "*", methods: ["GET", "POST"] },
 });
 
-
 const inputs = [];
-    const outputs = [];
-    const problem = [];
+const outputs = [];
+const problem = [];
 // Function to process CSV using streams
 const extractData = (filePath) => {
-    
+  // Create a readable stream for the CSV file
+  const fileStream = fs.createReadStream(filePath, { encoding: "utf8" });
 
-    // Create a readable stream for the CSV file
-    const fileStream = fs.createReadStream(filePath, { encoding: 'utf8' });
-
-    // Use PapaParse's stream API to parse the file line by line
-    Papa.parse(fileStream, {
-        header: true, // First row is treated as header
-        dynamicTyping: true, // Automatically convert numbers/booleans
-        step: (result) => {
-            const row = result.data;
-            inputs.push(row.inputs); // Adjust column name as needed
-            outputs.push(row.outputs); // Adjust column name as needed
-            problem.push(row.question);
-        },
-        complete: () => {
-            
-        },
-        error: (err) => {
-            console.error("Error parsing the file:", err.message);
-        }
-    });
+  // Use PapaParse's stream API to parse the file line by line
+  Papa.parse(fileStream, {
+    header: true, // First row is treated as header
+    dynamicTyping: true, // Automatically convert numbers/booleans
+    step: (result) => {
+      const row = result.data;
+      inputs.push(row.inputs); // Adjust column name as needed
+      outputs.push(row.outputs); // Adjust column name as needed
+      problem.push(row.question);
+    },
+    complete: () => {},
+    error: (err) => {
+      console.error("Error parsing the file:", err.message);
+    },
+  });
 };
 
 // Call the function with the path to your CSV file
-extractData('test.csv');
+extractData("test.csv");
 const queue = [];
 
 io.on("connection", (socket) => {
@@ -96,28 +94,27 @@ io.on("connection", (socket) => {
         player1: player1.id,
         player2: player2.id,
         question_id: {
-          problem: problem[q_id], 
-          input_cases: inputs[q_id], 
-          output_cases: outputs[q_id]
+          problem: problem[q_id],
+          input_cases: inputs[q_id],
+          output_cases: outputs[q_id],
         },
       };
 
       io.to(room).emit("match_found", questionData);
 
       console.log(
-        `Match started: ${player1.id} vs ${player2.id} in room ${room}  question ${JSON.stringify(questionData.question_id)}`
+        `Match started: ${player1.id} vs ${
+          player2.id
+        } in room ${room}  question ${JSON.stringify(questionData.question_id)}`
       );
     } else {
       console.log("Not enough players");
     }
   });
 
-
-
-  socket.on("Won",({room_id,winner})=>{
-    io.to(room_id).emit("Match Over",{winner});
+  socket.on("Won", ({ room_id, winner }) => {
+    io.to(room_id).emit("Match Over", { winner });
     io.socketsLeave(room_id);
-
   });
 
   socket.on("disconnect", () => {
