@@ -1,4 +1,5 @@
 .env
 ./coding-duel-backend/test.csv
 ./coding-duel-backend/node_modules/
+node_modules/
 test.csv
