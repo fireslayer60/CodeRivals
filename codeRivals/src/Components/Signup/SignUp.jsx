@@ -75,6 +75,10 @@ function SignUp() {
     }
   };
 
+  const goLogin = ()=>{
+    navigate("/Login")
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.signUp}>
@@ -129,7 +133,7 @@ function SignUp() {
         </form>
         <div className={styles.account}>
           <p>Already have an account? </p>
-          <p className={styles.accountsign}>Login!</p>
+          <p className={styles.accountsign} onClick={goLogin}>Login!</p>
         </div>
       </div>
 
