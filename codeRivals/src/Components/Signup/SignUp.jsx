@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const navigate = useNavigate();
-
+  const [User,setUser] = useState(null);
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
