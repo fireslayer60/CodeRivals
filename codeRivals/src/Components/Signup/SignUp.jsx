@@ -68,6 +68,9 @@ function SignUp() {
           navigate("/home");
         } else {
           console.error("Signup failed", data);
+          let dberror = {}
+          dberror.email = data.error
+          Seterrors(dberror);
         }
       } catch (error) {
         console.error("Error during signup:", error);

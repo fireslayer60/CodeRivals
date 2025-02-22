@@ -80,14 +80,25 @@ router.post(
 
     try {
       // Check if the email is already registered
-      const existingUser = await pool.query(
+      const existingEmail= await pool.query(
         "SELECT id FROM users WHERE email = $1",
         [email]
       );
 
-      if (existingUser.rows.length > 0) {
+      if (existingEmail.rows.length > 0) {
         return res.status(409).json({ error: "Email already exists." }); // 409 Conflict
       }
+
+      const existingUser = await pool.query(
+        "SELECT id FROM users WHERE username = $1",
+        [username]
+      );
+
+      if (existingUser.rows.length > 0) {
+        return res.status(409).json({ error: "User already exists." }); // 409 Conflict
+      }
+
+
 
       // Hash the password securely
       const saltRounds = 10;
