@@ -18,7 +18,16 @@ const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
 
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Adjust frontend URL
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || origin.startsWith("http://localhost")) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));// Adjust frontend URL
 app.use(morgan("dev"));
 app.use(cookieParser());
 

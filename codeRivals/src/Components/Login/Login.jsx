@@ -67,7 +67,7 @@ function Login() {
         <input 
             type="email" 
             name="email" 
-            placeholder=" Enter your User Name" 
+            placeholder=" Enter your User Name Or Email" 
             value={UserData.email} 
             onChange={handleChange} 
           />
