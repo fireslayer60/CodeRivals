@@ -7,9 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const navigate = useNavigate();
-
-  const [user, setUser] = useState(null);
-
+  const [User, setUser] = useState(null);
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -70,11 +68,18 @@ function SignUp() {
           navigate("/home");
         } else {
           console.error("Signup failed", data);
+          let dberror = {};
+          dberror.email = data.error;
+          Seterrors(dberror);
         }
       } catch (error) {
         console.error("Error during signup:", error);
       }
     }
+  };
+
+  const goLogin = () => {
+    navigate("/Login");
   };
 
   return (
@@ -131,7 +136,9 @@ function SignUp() {
         </form>
         <div className={styles.account}>
           <p>Already have an account? </p>
-          <p className={styles.accountsign}>Login!</p>
+          <p className={styles.accountsign} onClick={goLogin}>
+            Login!
+          </p>
         </div>
       </div>
 
