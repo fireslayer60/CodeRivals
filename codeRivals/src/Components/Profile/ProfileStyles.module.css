@@ -1,0 +1,170 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--dark-bg);
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 200px;
+    background-color: var(--dark-card);
+    color:var(--light-text);
+    padding: 20px;
+    margin-top:20px;
+    margin-bottom:20px;
+    border-radius: 0px 20px 20px 0px;
+
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar li {
+    padding: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .sidebar li:hover {
+    background-color: #e2e6ea;
+    color:black;
+    border-radius: 5px;
+  }
+  
+  .sidebar li:last-child {
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* Main content */
+  .main {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Card styling */
+  .card {
+    background-color: var(--dark-card);
+    color:var(--light-text);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Profile Header */
+  .profileHeader {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .profilePic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .profilePic:hover {
+    opacity: 0.7;
+  }
+  
+  /* Left section of the card */
+  .cardleft {
+    flex: 1;
+  }
+  
+  .cardleft p {
+    margin: 5px 0;
+  }
+  
+  .cardleft h4 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+  }
+  
+  /* Buttons */
+  .editButton,
+  .saveButton,
+  .cancelButton {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 500;
+    border: none;
+    transition: 0.3s;
+  }
+  
+  .editButton {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .saveButton {
+    background-color: #28a745;
+    color: white;
+    margin-right: 10px;
+  }
+  
+  .cancelButton {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .editButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .saveButton:hover {
+    background-color: #218838;
+  }
+  
+  .cancelButton:hover {
+    background-color: #c82333;
+  }
+  
+  /* Input fields */
+  input {
+    display: block;
+    margin: 5px 0;
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .main {
+      padding: 10px;
+    }
+  
+    .profileHeader {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+  
