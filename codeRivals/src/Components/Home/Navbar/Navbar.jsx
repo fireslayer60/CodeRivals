@@ -1,11 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./NavbarStyles.module.css"; 
 import pfpic from "../../../assets/meme.jpg";
 import logo from "../../../assets/C.png";
 
+
 function Navbar() {
-   
+    const navigate = useNavigate(); 
+    const onPfp = ()=>{
+      navigate("/profile");
+    }
   
     return (
       <nav className={styles.navbar}>
@@ -42,6 +46,7 @@ function Navbar() {
               src={pfpic}
               alt="Profile Avatar"
               className={styles.profileAvatar}
+              onClick={onPfp}
             />
           </div>
         </div>
