@@ -1,0 +1,71 @@
+/* Leaderboard.module.css */
+.leaderboard_container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #222;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #f5f5f5;
+    margin-bottom: 15px;
+  }
+  
+  .leaderboard_table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1a1a1a;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .th, .td {
+    padding: 12px;
+    color: #ddd;
+    text-align: center;
+  }
+  
+  .th {
+    background: #444;
+    font-weight: bold;
+  }
+  
+  .td {
+    border-bottom: 1px solid #333;
+  }
+  
+  .rank {
+    font-weight: bold;
+    color: #f39c12;
+  }
+  
+  .pfp {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid #555;
+  }
+  
+  .username {
+    font-weight: bold;
+    color: #f5f5f5;
+  }
+  
+  .elo {
+    color: #1abc9c;
+    font-weight: bold;
+  }
+  
+  .wins {
+    color: #2ecc71;
+  }
+  
+  .losses {
+    color: #e74c3c;
+  }
+  

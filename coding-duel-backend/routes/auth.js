@@ -121,4 +121,23 @@ router.post(
   }
 );
 
+//for leaderboards
+router.get("/getleaderboard", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        RANK() OVER (ORDER BY elo DESC) AS rank,
+        username, 
+        elo, 
+        wins, 
+        losses 
+      FROM leaderboard;
+    `);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 export default router;
