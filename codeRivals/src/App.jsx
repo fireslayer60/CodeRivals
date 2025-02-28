@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home/Home.jsx';
 import DuelPage from './Components/Duel/DuelPage.jsx';
 import Login from './Components/Login/Login.jsx';
+import Profile from './Components/Profile/Profile.jsx';
+import Leaderboard from './Components/LeaderBoard/LeaderBoard.jsx';
 
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
       <Route path="/Login" element={<Login />} />
       <Route path="/home" element={<Home />} /> 
       <Route path="/duel" element={<DuelPage />} /> 
+      <Route path="/profile" element={<Profile />} /> 
+      <Route path="/leaderboard" element={<Leaderboard/>} /> 
     </Routes>
   </Router>
     
