@@ -109,6 +109,9 @@ router.post(
         "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id, username, email, created_at",
         [username, email, hashedPassword]
       );
+      const userLeaderBoard = await pool.query(
+        "INSERT INTO leaderboard (username,elo,wins,losses) VALUES ($1, $2, $3, $4)",[username,0,0,0]
+      );
 
       res.status(201).json({
         message: "User registered successfully",
@@ -131,7 +134,7 @@ router.get("/getleaderboard", async (req, res) => {
         elo, 
         wins, 
         losses 
-      FROM leaderboard;
+      FROM leaderboard LIMIT 10;
     `);
     res.json(result.rows);
   } catch (err) {
