@@ -21,16 +21,10 @@ const server = http.createServer(app);
 app.use(express.json());
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || origin.startsWith("http://localhost")) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: "*", // Allow all origins
     credentials: true,
   })
-); // Adjust frontend URL
+);
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
