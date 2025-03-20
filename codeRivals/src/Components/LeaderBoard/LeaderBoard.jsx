@@ -9,7 +9,7 @@ const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/getleaderboard")
+    fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/getleaderboard`)
       .then((response) => response.json())
       .then((data) => {
         const updatedData = data.map((player, index) => ({
