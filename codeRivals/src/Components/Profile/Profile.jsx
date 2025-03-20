@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./ProfileStyles.module.css";
 import pfp from "../../assets/defpfp.png";
 
@@ -21,23 +21,55 @@ const Profile = () => {
 
   // State for address
   const [address, setAddress] = useState({
-    country: "United Kingdom",
+    country: "",
   });
+
+  // Fetch user data from backend
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/profile/${personalInfo.email}`
+        );
+        const data = await response.json();
+
+        if (response.ok) {
+          setPersonalInfo({
+            username: data.username,
+            firstName: data.first_name,
+            lastName: data.last_name,
+            email: data.email,
+            phone: data.phone,
+            bio: data.bio,
+          });
+
+          setAddress({
+            country: data.country,
+          });
+        } else {
+          console.error("Error fetching profile data:", data.error);
+        }
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   // Handle image change
   const handleImageChange = (event) => {
     const file = event.target.files[0];
 
     if (file) {
-        if (file.size <= 2 * 1024 * 1024) {
-            const imageUrl = URL.createObjectURL(file);
-            setProfileImage(imageUrl);
-        } else {
-            alert("File size must be 2MB or less.");
-        }
+      if (file.size <= 2 * 1024 * 1024) {
+        const imageUrl = URL.createObjectURL(file);
+        setProfileImage(imageUrl);
+      } else {
+        alert("File size must be 2MB or less.");
+      }
     }
-};
-
+  };
 
   // Handle personal info change
   const handlePersonalChange = (e) => {
@@ -47,6 +79,70 @@ const Profile = () => {
   // Handle address change
   const handleAddressChange = (e) => {
     setAddress({ ...address, [e.target.name]: e.target.value });
+  };
+
+  // Save updated personal info
+  const handleSavePersonalInfo = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/profile/${personalInfo.email}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: personalInfo.username,
+            firstName: personalInfo.firstName,
+            lastName: personalInfo.lastName,
+            phone: personalInfo.phone,
+            bio: personalInfo.bio,
+            country: address.country,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to update profile");
+      }
+
+      alert("Profile updated successfully!");
+      setIsEditingPersonal(false); // ✅ Exit edit mode after success
+    } catch (error) {
+      alert(error.message); // ✅ Show error alert
+    }
+  };
+
+  // Save updated address
+  const handleSaveAddress = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/profile/${personalInfo.email}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...personalInfo,
+            country: address.country,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Address updated successfully!");
+        setIsEditingAddress(false);
+      } else {
+        alert("Failed to update address: " + data.error);
+      }
+    } catch (error) {
+      console.error("Error updating address:", error);
+    }
   };
 
   return (
@@ -113,7 +209,7 @@ const Profile = () => {
                   type="email"
                   name="email"
                   value={personalInfo.email}
-                  onChange={handlePersonalChange}
+                  disabled
                 />
                 <input
                   type="text"
@@ -127,18 +223,45 @@ const Profile = () => {
                   value={personalInfo.bio}
                   onChange={handlePersonalChange}
                 />
-                <button className={styles.saveButton} onClick={() => setIsEditingPersonal(false)}>Save</button>
-                <button className={styles.cancelButton} onClick={() => setIsEditingPersonal(false)}>Cancel</button>
+                <button
+                  className={styles.saveButton}
+                  onClick={handleSavePersonalInfo}
+                >
+                  Save
+                </button>
+                <button
+                  className={styles.cancelButton}
+                  onClick={() => setIsEditingPersonal(false)}
+                >
+                  Cancel
+                </button>
               </>
             ) : (
               <>
-                <p><strong>Username:</strong> {personalInfo.username}</p>
-                <p><strong>First Name:</strong> {personalInfo.firstName}</p>
-                <p><strong>Last Name:</strong> {personalInfo.lastName}</p>
-                <p><strong>Email:</strong> {personalInfo.email}</p>
-                <p><strong>Phone:</strong> {personalInfo.phone}</p>
-                <p><strong>Bio:</strong> {personalInfo.bio}</p>
-                <button className={styles.editButton} onClick={() => setIsEditingPersonal(true)}>Edit ✏️</button>
+                <p>
+                  <strong>Username:</strong> {personalInfo.username}
+                </p>
+                <p>
+                  <strong>First Name:</strong> {personalInfo.firstName}
+                </p>
+                <p>
+                  <strong>Last Name:</strong> {personalInfo.lastName}
+                </p>
+                <p>
+                  <strong>Email:</strong> {personalInfo.email}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {personalInfo.phone}
+                </p>
+                <p>
+                  <strong>Bio:</strong> {personalInfo.bio}
+                </p>
+                <button
+                  className={styles.editButton}
+                  onClick={() => setIsEditingPersonal(true)}
+                >
+                  Edit ✏️
+                </button>
               </>
             )}
           </div>
@@ -156,13 +279,30 @@ const Profile = () => {
                   value={address.country}
                   onChange={handleAddressChange}
                 />
-                <button className={styles.saveButton} onClick={() => setIsEditingAddress(false)}>Save</button>
-                <button className={styles.cancelButton} onClick={() => setIsEditingAddress(false)}>Cancel</button>
+                <button
+                  className={styles.saveButton}
+                  onClick={handleSaveAddress}
+                >
+                  Save
+                </button>
+                <button
+                  className={styles.cancelButton}
+                  onClick={() => setIsEditingAddress(false)}
+                >
+                  Cancel
+                </button>
               </>
             ) : (
               <>
-                <p><strong>Country:</strong> {address.country}</p>
-                <button className={styles.editButton} onClick={() => setIsEditingAddress(true)}>Edit ✏️</button>
+                <p>
+                  <strong>Country:</strong> {address.country}
+                </p>
+                <button
+                  className={styles.editButton}
+                  onClick={() => setIsEditingAddress(true)}
+                >
+                  Edit ✏️
+                </button>
               </>
             )}
           </div>
