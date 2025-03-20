@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import pool from "./db.js"; // PostgreSQL connection
 import { Console } from "console";
 import authRoutes from "./routes/auth.js";
+import profileRoutes from "./routes/profile.js";
 
 import fs from "fs";
 import Papa from "papaparse";
@@ -18,14 +19,18 @@ const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
 
 app.use(express.json());
-app.use(cors({
-  origin: "*", // Allow all origins
-  credentials: true
-}));// Adjust frontend URL
+app.use(
+  cors({
+    origin: "*", // Allow all origins
+    credentials: true,
+  })
+);
 app.use(morgan("dev"));
 app.use(cookieParser());
+app.use(express.json());
 
 app.use("/api", authRoutes); // ✅ Enables /api/signup route
+app.use("/api/profile", profileRoutes);
 
 // ✅ Test Database Connection
 pool.query("SELECT NOW()", (err, res) => {
