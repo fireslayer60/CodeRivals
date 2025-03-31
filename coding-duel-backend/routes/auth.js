@@ -1,7 +1,7 @@
 import express from "express";
-import { body, validationResult } from "express-validator"; // Input validation
+import { body, validationResult } from "express-validator";
 import bcrypt from "bcrypt";
-import pool from "../db.js"; // Database connection
+import pool from "../db.js";
 
 const router = express.Router();
 // For login
@@ -13,7 +13,7 @@ router.post(
     body("password").notEmpty().withMessage("Password is required"),
   ],
   async (req, res) => {
-    // Validate request
+    // Validating request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -28,17 +28,17 @@ router.post(
       ]);
 
       if (user.rows.length === 0) {
-        return res.status(401).json({ error: "Invalid email or password" }); // 401 Unauthorized
+        return res.status(401).json({ error: "User does not exist" }); // For 401 Unauthorized
       }
 
-      // Compare hashed password
+      // Comparing the hashed password
       const validPassword = await bcrypt.compare(
         password,
         user.rows[0].password
       );
 
       if (!validPassword) {
-        return res.status(401).json({ error: "Invalid email or password" });
+        return res.status(401).json({ error: "Invalid password" });
       }
 
       // Success response (No JWT for now, we'll add it later)
@@ -80,7 +80,7 @@ router.post(
 
     try {
       // Check if the email is already registered
-      const existingEmail= await pool.query(
+      const existingEmail = await pool.query(
         "SELECT id FROM users WHERE email = $1",
         [email]
       );
@@ -98,8 +98,6 @@ router.post(
         return res.status(409).json({ error: "User already exists." }); // 409 Conflict
       }
 
-
-
       // Hash the password securely
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -110,7 +108,8 @@ router.post(
         [username, email, hashedPassword]
       );
       const userLeaderBoard = await pool.query(
-        "INSERT INTO leaderboard (username,elo,wins,losses) VALUES ($1, $2, $3, $4)",[username,0,0,0]
+        "INSERT INTO leaderboard (username,elo,wins,losses) VALUES ($1, $2, $3, $4)",
+        [username, 0, 0, 0]
       );
 
       res.status(201).json({

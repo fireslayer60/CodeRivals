@@ -21,7 +21,7 @@ const server = http.createServer(app);
 app.use(express.json());
 app.use(
   cors({
-    origin: "*", // Allow all origins
+    origin: "*",
     credentials: true,
   })
 );
@@ -29,7 +29,7 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("/api", authRoutes); // ✅ Enables /api/signup route
+app.use("/api", authRoutes);
 app.use("/api/profile", profileRoutes);
 
 // ✅ Test Database Connection
