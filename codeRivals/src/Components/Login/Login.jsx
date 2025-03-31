@@ -66,7 +66,8 @@ function Login() {
       // Navigate if login is successful
       navigate("/home", { state: { successMessage: "Login Successful! 🎉" } });
     } catch (error) {
-      const errorMsg = error.response?.data?.error || "Something went wrong!";
+      const errorMsg =
+        error.response?.data?.error || "Fill out the empty details!";
       setErrors(errorMsg);
 
       toast.error(errorMsg, {
@@ -122,7 +123,7 @@ function Login() {
           <input
             type="email"
             name="email"
-            placeholder="   Enter your User Name Or Email"
+            placeholder=" Enter your User Name Or Email"
             value={userData.email}
             onChange={handleChange}
           />
@@ -130,7 +131,7 @@ function Login() {
           <input
             type="password"
             name="password"
-            placeholder="   Enter your password"
+            placeholder=" Enter your password"
             value={userData.password}
             onChange={handleChange}
           />
