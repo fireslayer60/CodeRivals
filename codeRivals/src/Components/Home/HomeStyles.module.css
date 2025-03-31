@@ -1,79 +1,79 @@
 .homeContainer {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--dark-bg);
-  }
-  
-  .homeContent {
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    padding: 20px;
-    
-    color: var(--light-text);
-  }
-  
-  .leftSection {
-    flex: 0 0 60%;
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background-color: var(--dark-card);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .rankImage img {
-    max-width: 200px;
-    margin-bottom: 20px;
-  }
-  
-  .findMatchBtn {
-    background-color: var(--accent);
-    color: var(--light-text);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-  }
-  
-  .findMatchBtn:hover {
-    background-color: #00a09d;
-  }
-  
-  .rightSection {
-   
-    display: flex;
-    flex-direction: column;
-    gap:30px;
-    padding: 20px;
-    border-radius: 10px;
-    color: var(--light-text);
-  }
-  
-  .leaderboard, .friendsList {
-    margin-bottom: 30px;
-  }
-  
-  h3 {
-    color: var(--accent);
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  
-  ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  
-  li {
-    margin-bottom: 8px;
-  }
-  
-  li:last-child {
-    margin-bottom: 0;
-  }
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--dark-bg);
+}
+
+.homeContent {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  padding: 20px;
+
+  color: var(--light-text);
+}
+
+.leftSection {
+  flex: 0 0 60%;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: var(--dark-card);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.rankImage img {
+  max-width: 200px;
+  margin-bottom: 20px;
+}
+
+.findMatchBtn {
+  background-color: var(--accent);
+  color: var(--light-text);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.findMatchBtn:hover {
+  background-color: #00a09d;
+}
+
+.rightSection {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  color: var(--light-text);
+}
+
+.leaderboard,
+.friendsList {
+  margin-bottom: 30px;
+}
+
+h3 {
+  color: var(--accent);
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+li:last-child {
+  margin-bottom: 0;
+}

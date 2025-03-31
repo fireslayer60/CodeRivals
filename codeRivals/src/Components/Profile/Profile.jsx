@@ -29,7 +29,9 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/profile/${personalInfo.email}`
+          `http://${import.meta.env.VITE_AWS_IP}:5000/api/profile/${
+            personalInfo.email
+          }`
         );
         const data = await response.json();
 
@@ -85,7 +87,9 @@ const Profile = () => {
   const handleSavePersonalInfo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/profile/${personalInfo.email}`,
+        `http://${import.meta.env.VITE_AWS_IP}:5000/api/profile/${
+          personalInfo.email
+        }`,
         {
           method: "PUT",
           headers: {
@@ -119,7 +123,9 @@ const Profile = () => {
   const handleSaveAddress = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/profile/${personalInfo.email}`,
+        `http://${import.meta.env.VITE_AWS_IP}:5000/api/profile/${
+          personalInfo.email
+        }`,
         {
           method: "PUT",
           headers: {

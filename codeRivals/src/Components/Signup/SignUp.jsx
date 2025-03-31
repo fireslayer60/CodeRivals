@@ -18,6 +18,7 @@ function SignUp() {
       console.error("Google Sign-In Error:", error.message);
     }
   };
+
   const [UserData, SetUserData] = useState({
     username: "",
     email: "",
@@ -55,13 +56,16 @@ function SignUp() {
     e.preventDefault();
     if (validate()) {
       try {
-        const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/signup`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(UserData),
-        });
+        const response = await fetch(
+          `http://${import.meta.env.VITE_AWS_IP}:5000/api/signup`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(UserData),
+          }
+        );
         const data = await response.json();
         if (response.ok) {
           console.log("Signup successful", data);
@@ -93,7 +97,7 @@ function SignUp() {
           onClick={handleGoogleLogin}
         >
           <FcGoogle className={styles.gicon} />
-          Login with Google
+          Signup with Google
         </button>
         <div className={styles.breaker}>
           <div className={styles.line}></div>
@@ -112,7 +116,6 @@ function SignUp() {
             value={UserData.username}
             onChange={handleChange}
           />
-
           <input
             type="email"
             name="email"
