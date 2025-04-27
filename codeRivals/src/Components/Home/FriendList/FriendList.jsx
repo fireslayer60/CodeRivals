@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./FriendList.module.css";
 import pfp from "../../../assets/meme.jpg"; // Import profile picture
+import { IoPersonAdd } from "react-icons/io5";
 
 // Placeholder friends list data
 const friendsData = [
@@ -13,7 +14,11 @@ const friendsData = [
 function FriendsList() {
   return (
     <div className={styles.friendsListContainer}>
+      <div className={styles.friendsListTop}>
       <h2 className={styles.friendsListTitle}>Friends</h2>
+      <IoPersonAdd className={styles.friendAdd}/>
+      </div>
+      
       <div className={styles.friendsList}>
         {friendsData.map((friend, index) => (
           <div key={index} className={styles.friendItem}>

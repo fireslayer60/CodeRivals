@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ProfileStyles.module.css";
 import pfp from "../../assets/defpfp.png";
+import Friends from "./Friends/Friends";
 
 const Profile = () => {
   const [profileImage, setProfileImage] = useState(pfp);
@@ -8,6 +9,7 @@ const Profile = () => {
   // State for edit mode
   const [isEditingPersonal, setIsEditingPersonal] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("profile");
 
   // State for personal info
   const [personalInfo, setPersonalInfo] = useState({
@@ -155,15 +157,19 @@ const Profile = () => {
     <div className={styles.container}>
       {/* Sidebar */}
       <div className={styles.sidebar}>
-        <ul>
-          <li>My Profile</li>
-          <li style={{ color: "red" }}>Delete Account</li>
-        </ul>
-      </div>
+  <ul>
+    <li onClick={() => setSelectedTab("profile")}>My Profile</li>
+    <li onClick={() => setSelectedTab("friends")}>Friends</li>
+    <li style={{ color: "red" }} onClick={() => setSelectedTab("delete")}>Delete Account</li>
+  </ul>
+</div>
+
 
       {/* Main Content */}
       <div className={styles.main}>
         {/* Profile Header */}
+        { selectedTab==="profile" && (
+          <>
         <div className={styles.card}>
           <div className={styles.profileHeader}>
             <input
@@ -313,6 +319,8 @@ const Profile = () => {
             )}
           </div>
         </div>
+        </>)}
+        {selectedTab==="friends" && (<><Friends/></>)}
       </div>
     </div>
   );

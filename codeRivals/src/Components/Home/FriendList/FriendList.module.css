@@ -16,12 +16,35 @@
     max-height: 400px;
     overflow-y: auto;
   }
+
+  .friendsListTop{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+    align-items: center;
+
+    
+  }
   
   .friendsListTitle {
     font-size: 24px;
     color: var(--light-text);
     margin-bottom: 15px;
     text-align: center;
+    flex-grow: 1;
+    
+  }
+  .friendAdd{
+    border: solid 1px;
+    border-radius: 180px;
+    height: 20px;
+    width: auto;
+    padding: 4px;
+  }
+  .friendAdd:hover{
+    cursor: pointer;
+    color: #393E46;
+    background-color: #EEEEEE;
   }
   
   .friendsList {

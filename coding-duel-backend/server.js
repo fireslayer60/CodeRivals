@@ -9,6 +9,7 @@ import pool from "./db.js"; // PostgreSQL connection
 import { Console } from "console";
 import authRoutes from "./routes/auth.js";
 import profileRoutes from "./routes/profile.js";
+import friendsRoutes from "./routes/friend.js";
 
 import fs from "fs";
 import Papa from "papaparse";
@@ -31,6 +32,7 @@ app.use(express.json());
 
 app.use("/api", authRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/friends", friendsRoutes);
 
 // ✅ Test Database Connection
 pool.query("SELECT NOW()", (err, res) => {

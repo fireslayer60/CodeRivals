@@ -1,0 +1,39 @@
+.card {
+    padding: 20px;
+    background-color: var(--dark-card);
+    border-radius: 10px;
+    color: var(--light-text);
+
+  }
+  .card h2{
+    font-size: 22px;
+  }
+  
+  .input {
+    padding: 8px;
+    width: 70%;
+    margin-right: 10px;
+  }
+  
+  .searchButton, .addButton {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .resultCard {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: var(--dark-card);
+    border-radius: 8px;
+  }
+  
+  .message {
+    margin-top: 15px;
+    color: green;
+    font-weight: bold;
+  }
+  
