@@ -19,5 +19,18 @@ router.get("/search-user",async (req,res)=>{
   }
 })
 
+router.post("/send-friend-request", async (req,res)=>{
+  const {toUserName,fromUserName} = req.body;
+  try{
+    const isFriend = await pool.query(
+      "SELECT user1_id,user2_id,status WHERE (user1_id =$1 OR user2_id = $1) AND (user1_id =$2 OR user2_id = $2)",[toUserName,fromUserName]
+    );
+    console.log(isFriend);
+  }
+  catch (err){
+    console.log(err);
+  }
+})
+
 
 export default router;

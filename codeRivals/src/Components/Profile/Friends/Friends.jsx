@@ -5,14 +5,16 @@ function Friends() {
   const [searchUsername, setSearchUsername] = useState("");
   const [searchResult, setSearchResult] = useState(null);
   const [message, setMessage] = useState("");
+  const currentUsername = localStorage.getItem("username");
 
   const handleSearch = async () => {
     try {
-      const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/search-user?username=${searchUsername}`);
+      const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/friends/search-user?username=${searchUsername}`);
       const data = await response.json();
+      console.log(data[0]);
 
       if (response.ok) {
-        setSearchResult(data);
+        setSearchResult(data[0]);
         setMessage("");
       } else {
         setSearchResult(null);
@@ -26,14 +28,14 @@ function Friends() {
 
   const handleSendRequest = async () => {
     try {
-      const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/send-friend-request`, {
+      const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/friends/send-friend-request`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          toUsername: searchResult.username, // sending to the found user
-          fromUsername: "currentLoggedInUser", // TODO: Replace with real logged in user
+          toUsername: searchResult.username, 
+          fromUsername: currentUsername, 
         }),
       });
 
@@ -65,7 +67,7 @@ function Friends() {
 
       {searchResult && (
         <div className={styles.resultCard}>
-          <p><strong>Username:</strong> {searchResult.username}</p>
+          <p><strong>Username Found:</strong> {searchResult.username} {currentUsername}</p>
           <button onClick={handleSendRequest} className={styles.addButton}>Send Friend Request</button>
         </div>
       )}

@@ -69,6 +69,7 @@ function SignUp() {
         const data = await response.json();
         if (response.ok) {
           console.log("Signup successful", data);
+          localStorage.setItem("username", UserData.username); 
           navigate("/home");
         } else {
           console.error("Signup failed", data);

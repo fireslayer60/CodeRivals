@@ -61,6 +61,7 @@ function Login() {
         `http://${import.meta.env.VITE_AWS_IP}:5000/api/login`,
         userData
       );
+      localStorage.setItem("username", userData.email); 
       console.log("Login Success:", response.data);
 
       // Navigate if login is successful
