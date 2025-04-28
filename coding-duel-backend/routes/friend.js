@@ -23,7 +23,7 @@ router.post("/send-friend-request", async (req,res)=>{
   const {toUsername,fromUsername} = req.body;
   try{
     const isFriend = await pool.query(
-      "SELECT user1_id,user2_id,status FROM friends WHERE (user1_id =$1 OR user2_id = $1) AND (user1_id =$2 OR user2_id = $2)",[toUserName,fromUserName]
+      "SELECT user1_id,user2_id,status FROM friends WHERE (user1_id =$1 OR user2_id = $1) AND (user1_id =$2 OR user2_id = $2)",[toUsername,fromUsername]
     );
     console.log(isFriend);
     if(isFriend.rows.length>0){
