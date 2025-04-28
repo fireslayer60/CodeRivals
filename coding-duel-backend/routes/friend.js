@@ -25,9 +25,9 @@ router.post("/send-friend-request", async (req,res)=>{
     const isFriend = await pool.query(
       "SELECT user1_id,user2_id,status FROM friends WHERE (user1_id =$1 OR user2_id = $1) AND (user1_id =$2 OR user2_id = $2)",[toUsername,fromUsername]
     );
-    console.log(isFriend);
+    
     if(isFriend.rows.length>0){
-      
+      return res.status(409).json({ error: "Request already sent or already friends" });
     }
     else{
       const status = "pending"
