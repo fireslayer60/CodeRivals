@@ -20,7 +20,7 @@ router.get("/search-user",async (req,res)=>{
 })
 
 router.post("/send-friend-request", async (req,res)=>{
-  const {toUserName,fromUserName} = req.body;
+  const {toUsername,fromUsername} = req.body;
   try{
     const isFriend = await pool.query(
       "SELECT user1_id,user2_id,status FROM friends WHERE (user1_id =$1 OR user2_id = $1) AND (user1_id =$2 OR user2_id = $2)",[toUserName,fromUserName]
@@ -33,7 +33,7 @@ router.post("/send-friend-request", async (req,res)=>{
       const status = "pending"
       const friendReq = await pool.query(
         "INSERT INTO friends (user1_id, user2_id, status) VALUES ($1, $2, $3) ",
-        [toUserName, fromUserName, status]
+        [toUsername, fromUsername, status]
       );
       res.status(201).json({
         message: "Freind req sent",
