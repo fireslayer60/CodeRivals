@@ -83,7 +83,7 @@ router.post("/reject",async(req,res)=>{
 router.post("/accept",async(req,res)=>{
   const { requestId, currentUsername } = req.body;
   try {
-    const result = await pool.query(`UPDATE friends SET status='accepted' WHERE user1_id= $1; AND user2_id = $2`,
+    const result = await pool.query(`UPDATE friends SET status='accepted' WHERE user1_id= $1 AND user2_id = $2`,
       [requestId,currentUsername]
     );
 
