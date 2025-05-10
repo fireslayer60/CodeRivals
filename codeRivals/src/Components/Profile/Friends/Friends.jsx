@@ -19,6 +19,8 @@ const fetchFriendRequests = async () => {
     const currentUsername = localStorage.getItem("username");
     const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/friends/requests/${currentUsername}`);
     const data = await response.json();
+    console.log(data.requests);
+    
     if (response.ok) {
       setFriendRequests(data.requests);
     } else {
@@ -31,26 +33,44 @@ const fetchFriendRequests = async () => {
 
 const handleAccept = async (requestId) => {
   try {
-    const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/friends/accept/${requestId}`, {
+    
+    const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/friends/accept`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        requestId,
+        currentUsername,
+      }),
     });
+
     const data = await response.json();
     if (response.ok) {
-      alert("Friend request accepted!");
-      fetchFriendRequests(); // Refresh after accepting
+      alert("Friend request accept.");
+      fetchFriendRequests(); // Refresh after rejecting
     } else {
-      alert("Failed to accept request: " + data.error);
+      alert("Failed to reject request: " + data.error);
     }
   } catch (error) {
-    console.error("Error accepting request:", error);
+    console.error("Error rejecting request:", error);
   }
 };
 
 const handleReject = async (requestId) => {
   try {
-    const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/friends/reject/${requestId}`, {
+    
+    const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/friends/reject`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        requestId,
+        currentUsername,
+      }),
     });
+
     const data = await response.json();
     if (response.ok) {
       alert("Friend request rejected.");
@@ -137,9 +157,9 @@ const handleReject = async (requestId) => {
     {friendRequests.length > 0 ? (
       friendRequests.map((req) => (
         <div key={req.id} className={styles.requestCard}>
-          <p><strong>{req.fromUsername}</strong> wants to be your friend!</p>
-          <button onClick={() => handleAccept(req.id)} className={styles.acceptButton}>Accept ✅</button>
-          <button onClick={() => handleReject(req.id)} className={styles.rejectButton}>Reject ❌</button>
+          <p><strong>{req.user1_id}</strong> wants to be your friend!</p>
+          <button onClick={() => handleAccept(req.user1_id)} className={styles.acceptButton}>Accept </button>
+          <button onClick={() => handleReject(req.user1_id)} className={styles.rejectButton}>Reject </button>
         </div>
       ))
     ) : (
