@@ -62,41 +62,53 @@ router.get("/requests/:username",async(req,res)=>{
 
 })
 
-router.post("/reject",async(req,res)=>{
-  const { requestId, currentUsername } = req.body;
+router.post("/reject", async (req, res) => {
+  const { user1_id, user2_id } = req.body;
+
   try {
-    const result = await pool.query(`DELETE  FROM friends  WHERE user1_id = $1 AND user2_id = $2`,
-      [requestId,currentUsername]
+    const result = await pool.query(
+      `DELETE FROM friends 
+       WHERE user1_id = $1 AND user2_id = $2 AND status = 'pending'`,
+      [user1_id, user2_id]
     );
 
-    res.json({ requests: result.rows });
-    res.status(201).json({
-      message: "Freind req rejected",
-      
-    });
-  } catch (err) {
-    console.error("Error fetching friend requests:", err.message);
-    res.status(500).json({ error: "Internal server error" });
-  }
-})
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "No pending request to reject." });
+    }
 
-router.post("/accept",async(req,res)=>{
-  const { requestId, currentUsername } = req.body;
+    return res.status(200).json({ message: "Friend request rejected." });
+  } catch (err) {
+    console.error("Error rejecting request:", err.message);
+    if (!res.headersSent) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  }
+});
+
+
+router.post("/accept", async (req, res) => {
+  const { user1_id, user2_id } = req.body; // e.g. test1 and test2
+
   try {
-    const result = await pool.query(`UPDATE friends SET status='accepted' WHERE user1_id= $1 AND user2_id = $2`,
-      [requestId,currentUsername]
+    const result = await pool.query(
+      `UPDATE friends SET status = 'accepted' 
+       WHERE user1_id = $1 AND user2_id = $2 AND status = 'pending'`,
+      [user1_id, user2_id]
     );
 
-    res.json({ requests: result.rows });
-    res.status(201).json({
-      message: "Freind req accpeted",
-      
-    });
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "No pending request found." });
+    }
+
+    return res.status(200).json({ message: "Friend request accepted." });
   } catch (err) {
-    console.error("Error fetching friend requests:", err.message);
-    res.status(500).json({ error: "Internal server error" });
+    console.error("Error accepting request:", err.message);
+    if (!res.headersSent) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
   }
-})
+});
+
   
 
 
