@@ -23,7 +23,7 @@ router.post(
 
     try {
       // Check if the user exists
-      const user = await pool.query("SELECT * FROM users WHERE email = $1", [
+      const user = await pool.query("SELECT * FROM users WHERE email = $1 OR username= $1", [
         email,
       ]);
 

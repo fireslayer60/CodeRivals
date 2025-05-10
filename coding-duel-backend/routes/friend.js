@@ -47,5 +47,22 @@ router.post("/send-friend-request", async (req,res)=>{
   }
 })
 
+router.get("/requests/:username",async(req,res)=>{
+  const { username } = req.params;
+  try {
+    const result = await pool.query(`SELECT user1_id  FROM friends  WHERE user2_id = $1 AND status = 'pending'`,
+      [username]
+    );
+
+    res.json({ requests: result.rows });
+  } catch (err) {
+    console.error("Error fetching friend requests:", err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+
+})
+  
+
+
 
 export default router;
