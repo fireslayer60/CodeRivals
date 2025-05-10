@@ -123,7 +123,7 @@ function Login() {
         )}
         <form className={styles.form} onSubmit={handleSubmit}>
           <input
-            type="email"
+            
             name="email"
             placeholder=" Enter your User Name Or Email"
             value={userData.email}
