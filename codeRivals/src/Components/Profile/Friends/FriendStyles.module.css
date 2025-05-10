@@ -1,39 +1,94 @@
 .card {
-    padding: 20px;
-    background-color: var(--dark-card);
-    border-radius: 10px;
-    color: var(--light-text);
+  background: var(--dark-card);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: var(--light-text);
+}
 
-  }
-  .card h2{
-    font-size: 22px;
-  }
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.searchButton {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.searchButton:hover {
+  background-color: #0056cc;
+}
+
+.resultCard {
   
-  .input {
-    padding: 8px;
-    width: 70%;
-    margin-right: 10px;
-  }
+  padding: 10px;
+ 
   
-  .searchButton, .addButton {
-    padding: 8px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .resultCard {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: var(--dark-card);
-    border-radius: 8px;
-  }
-  
-  .message {
-    margin-top: 15px;
-    color: green;
-    font-weight: bold;
-  }
-  
+  background-color: var(--dark-card);
+}
+
+.addButton {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #00c851;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background-color: #007e33;
+}
+
+.message {
+  margin-top: 10px;
+  color: #ff4444;
+}
+
+/* Friend Requests Section */
+.requestCard {
+  margin-top: 10px;
+  padding: 15px;
+  border: 1px solid #ff9800;
+  border-radius: 5px;
+  background-color: #fff3e0;
+}
+
+.acceptButton {
+  margin-right: 10px;
+  padding: 8px 16px;
+  background-color: #00c851;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.acceptButton:hover {
+  background-color: #007e33;
+}
+
+.rejectButton {
+  padding: 8px 16px;
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.rejectButton:hover {
+  background-color: #cc0000;
+}

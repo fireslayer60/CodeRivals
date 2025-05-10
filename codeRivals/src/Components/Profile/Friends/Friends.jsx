@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import styles from "./FriendStyles.module.css";
 
 function Friends() {
@@ -6,6 +6,62 @@ function Friends() {
   const [searchResult, setSearchResult] = useState(null);
   const [message, setMessage] = useState("");
   const currentUsername = localStorage.getItem("username");
+
+  const [friendRequests, setFriendRequests] = useState([]);
+
+// Fetch friend requests when page loads
+useEffect(() => {
+  fetchFriendRequests();
+}, []);
+
+const fetchFriendRequests = async () => {
+  try {
+    const currentUsername = localStorage.getItem("username");
+    const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/friends/requests/${currentUsername}`);
+    const data = await response.json();
+    if (response.ok) {
+      setFriendRequests(data.requests);
+    } else {
+      console.error("Error fetching friend requests:", data.error);
+    }
+  } catch (error) {
+    console.error("Error fetching friend requests:", error);
+  }
+};
+
+const handleAccept = async (requestId) => {
+  try {
+    const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/friends/accept/${requestId}`, {
+      method: "POST",
+    });
+    const data = await response.json();
+    if (response.ok) {
+      alert("Friend request accepted!");
+      fetchFriendRequests(); // Refresh after accepting
+    } else {
+      alert("Failed to accept request: " + data.error);
+    }
+  } catch (error) {
+    console.error("Error accepting request:", error);
+  }
+};
+
+const handleReject = async (requestId) => {
+  try {
+    const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/friends/reject/${requestId}`, {
+      method: "POST",
+    });
+    const data = await response.json();
+    if (response.ok) {
+      alert("Friend request rejected.");
+      fetchFriendRequests(); // Refresh after rejecting
+    } else {
+      alert("Failed to reject request: " + data.error);
+    }
+  } catch (error) {
+    console.error("Error rejecting request:", error);
+  }
+};
 
   const handleSearch = async () => {
     try {
@@ -53,6 +109,7 @@ function Friends() {
   };
 
   return (
+    <>
     <div className={styles.card}>
       <h2>Find and Add Friends 🤝</h2>
 
@@ -67,13 +124,29 @@ function Friends() {
 
       {searchResult && (
         <div className={styles.resultCard}>
-          <p><strong>Username Found:</strong> {searchResult.username} {currentUsername}</p>
+          <p><strong>Username Found:</strong> {searchResult.username} </p>
           <button onClick={handleSendRequest} className={styles.addButton}>Send Friend Request</button>
         </div>
       )}
 
       {message && <p className={styles.message}>{message}</p>}
     </div>
+    <div className={styles.card}>
+    <h2>Friend Requests 📩</h2>
+  
+    {friendRequests.length > 0 ? (
+      friendRequests.map((req) => (
+        <div key={req.id} className={styles.requestCard}>
+          <p><strong>{req.fromUsername}</strong> wants to be your friend!</p>
+          <button onClick={() => handleAccept(req.id)} className={styles.acceptButton}>Accept ✅</button>
+          <button onClick={() => handleReject(req.id)} className={styles.rejectButton}>Reject ❌</button>
+        </div>
+      ))
+    ) : (
+      <p>No incoming friend requests right now.</p>
+    )}
+  </div>
+  </>
   );
 }
 
