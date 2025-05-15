@@ -78,7 +78,7 @@ router.post("/reject", async (req, res) => {
   try {
     const result = await pool.query(
       `DELETE FROM friends 
-       WHERE (user1_id = $1 AND user2_id) = $2 OR (user1_id = $2 AND user2_id = $1)`,
+       WHERE (user1_id = $1 AND user2_id = $2 )OR (user1_id = $2 AND user2_id = $1)`,
       [user1_id, user2_id]
     );
 
