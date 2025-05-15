@@ -20,7 +20,7 @@ const fetchFriendRequests = async () => {
     const currentUsername = localStorage.getItem("username");
     const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:5000/api/friends/requests/${currentUsername}`);
     const data = await response.json();
-    console.log(data.requests);
+    console.log(data.friends);
     
     if (response.ok) {
       setFriendRequests(data.requests);
@@ -175,12 +175,13 @@ const handleReject = async (requestId) => {
     {friends.length > 0 ? (
       friends.map((req) => (
         <div key={req.id} className={styles.requestCard}>
-          <p><strong>{req.user1_id}</strong> is your your friend!</p>
-          
+          <p><strong>{req.friend}</strong> is your your friend!</p>
+          <button onClick={() => {}} className={styles.acceptButton}>Challenge </button>
+          <button onClick={() => handleReject(req.friend)} className={styles.rejectButton}>Remove friend</button>
         </div>
       ))
     ) : (
-      <p>No incoming friend requests right now.</p>
+      <p>No Friends :(.</p>
     )}
   </div>
   </>
