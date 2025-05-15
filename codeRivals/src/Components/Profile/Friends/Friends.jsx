@@ -8,6 +8,7 @@ function Friends() {
   const currentUsername = localStorage.getItem("username");
 
   const [friendRequests, setFriendRequests] = useState([]);
+  const [friends, setFriends] = useState([]);
 
 // Fetch friend requests when page loads
 useEffect(() => {
@@ -23,6 +24,7 @@ const fetchFriendRequests = async () => {
     
     if (response.ok) {
       setFriendRequests(data.requests);
+      setFriends(data.friends);
     } else {
       console.error("Error fetching friend requests:", data.error);
     }
@@ -39,9 +41,10 @@ const handleAccept = async (requestId) => {
       headers: {
         "Content-Type": "application/json",
       },
+      
       body: JSON.stringify({
-        requestId,
-        currentUsername,
+       user1_id : requestId,
+        user2_id : currentUsername,
       }),
     });
 
@@ -66,8 +69,8 @@ const handleReject = async (requestId) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        requestId,
-        currentUsername,
+        user1_id : requestId,
+        user2_id : currentUsername,
       }),
     });
 
@@ -110,8 +113,8 @@ const handleReject = async (requestId) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          toUsername: searchResult.username, 
-          fromUsername: currentUsername, 
+          toUsername: currentUsername, 
+          fromUsername: searchResult.username, 
         }),
       });
 
@@ -160,6 +163,20 @@ const handleReject = async (requestId) => {
           <p><strong>{req.user1_id}</strong> wants to be your friend!</p>
           <button onClick={() => handleAccept(req.user1_id)} className={styles.acceptButton}>Accept </button>
           <button onClick={() => handleReject(req.user1_id)} className={styles.rejectButton}>Reject </button>
+        </div>
+      ))
+    ) : (
+      <p>No incoming friend requests right now.</p>
+    )}
+  </div>
+  <div className={styles.card}>
+    <h2>Friends 👯‍♂️</h2>
+  
+    {friends.length > 0 ? (
+      friends.map((req) => (
+        <div key={req.id} className={styles.requestCard}>
+          <p><strong>{req.user1_id}</strong> is your your friend!</p>
+          
         </div>
       ))
     ) : (

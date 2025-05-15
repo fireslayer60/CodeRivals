@@ -53,8 +53,18 @@ router.get("/requests/:username",async(req,res)=>{
     const result = await pool.query(`SELECT user1_id  FROM friends  WHERE user2_id = $1 AND status = 'pending'`,
       [username]
     );
+    const result2 = await pool.query(`SELECT 
+                                  CASE 
+                                    WHEN user1_id = $1 THEN user2_id
+                                    WHEN user2_id = $1 THEN user1_id
+                                  END AS friend
+                                FROM friends
+                                WHERE status = 'accepted' AND (user1_id = $1 OR user2_id = $1);
+                                `,
+                                      [username]
+                                    );
 
-    res.json({ requests: result.rows });
+    res.json({ requests: result.rows, friends : result2.rows});
   } catch (err) {
     console.error("Error fetching friend requests:", err.message);
     res.status(500).json({ error: "Internal server error" });
