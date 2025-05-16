@@ -118,7 +118,7 @@ io.on("connection", async (socket) => {
       return;
     }
 
-    console.log(friendSocketId+" "+toUsername);
+    
 
     // Send challenge event
     io.to(friendSocketId).emit("incoming-challenge", { fromUsername: username });
@@ -151,7 +151,7 @@ io.on("connection", async (socket) => {
 
       // Emit the match with the selected question and cases
       const questionData = {
-        room,
+        roomName,
         player1: player1.id,
         player2: player2.id,
         question_id: {
@@ -161,7 +161,7 @@ io.on("connection", async (socket) => {
         },
       };
 
-      io.to(room).emit("match_found", questionData);
+      io.to(roomName).emit("match_found", questionData);
 
     } else {
       io.to(fromSocketId).emit("challenge-status", { success: false, message: `${username} rejected your challenge.` });

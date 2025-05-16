@@ -15,7 +15,42 @@ function App() {
 
       console.log("User connected: ", socket.id);
     });
-    
+    socket.on("incoming-challenge", ({ fromUsername }) => {
+    console.log(fromUsername);
+  toast.info(
+    ({ closeToast }) => (
+      <div>
+        <p><strong>{fromUsername}</strong> challenged you to a match!</p>
+        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "8px" }}>
+          <button
+            style={{ backgroundColor: "#4CAF50", color: "white", border: "none", padding: "6px 10px", borderRadius: "4px" }}
+            onClick={() => {
+              socket.emit("respond-challenge", { fromUsername, accepted: true });
+              closeToast();
+            }}
+          >
+            Accept ✅
+          </button>
+          <button
+            style={{ backgroundColor: "#f44336", color: "white", border: "none", padding: "6px 10px", borderRadius: "4px" }}
+            onClick={() => {
+              socket.emit("respond-challenge", { fromUsername, accepted: false });
+              closeToast();
+            }}
+          >
+            Reject ❌
+          </button>
+        </div>
+      </div>
+    ),
+    {
+      position: "top-center",
+      autoClose: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: false,
+    }
+  );});
 
     socket.on("disconnect", () => {
       console.log("User disconnected: ", socket.id);
@@ -27,6 +62,7 @@ function App() {
     };
   });
   return (
+    <>
     <Router>
       <Routes>
         <Route path="/" element={<SignUp />} /> {/* SignUp page */}
@@ -37,6 +73,8 @@ function App() {
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </Router>
+    <ToastContainer/>
+    </>
   );
 }
 
