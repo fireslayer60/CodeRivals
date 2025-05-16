@@ -207,12 +207,17 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("Won", ({ room_id, winner }) => {
-  const clients = Array.from(io.sockets.adapter.rooms.get(room_id) || []);
-  console.log("match over");
-  clients.forEach((id) => {
+  const sockets = Array.from(io.sockets.adapter.rooms.get(room_id) || []);
+  console.log("Emitting Match Over to:", sockets);
+
+  sockets.forEach((id) => {
     io.to(id).emit("Match Over", { winner });
   });
-  io.socketsLeave(room_id);
+
+  // Give clients time to receive event before leaving
+  setTimeout(() => {
+    io.socketsLeave(room_id);
+  }, 500);
 });
 
 

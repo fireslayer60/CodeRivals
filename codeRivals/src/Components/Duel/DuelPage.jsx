@@ -65,6 +65,7 @@ const DuelPage = () => {
   
   
   useEffect(() => {
+    console.log("s");
     const handleMatchOver = ({ winner }) => {
       console.log("over");
       if (winner === socket.id) {
