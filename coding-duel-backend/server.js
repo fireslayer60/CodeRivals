@@ -208,6 +208,7 @@ io.on("connection", async (socket) => {
 
   socket.on("Won", ({ room_id, winner }) => {
   const clients = Array.from(io.sockets.adapter.rooms.get(room_id) || []);
+  console.log("match over");
   clients.forEach((id) => {
     io.to(id).emit("Match Over", { winner });
   });
