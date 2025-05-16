@@ -141,7 +141,7 @@ io.on("connection", async (socket) => {
     if (accepted) {
       // Create room name deterministically (sorted usernames to avoid duplicates)
       const players = [username, fromUsername].sort();
-      const roomName = `match_${players[0]}_${players[1]}`;
+      const roomName = `match_${socket.id}_${fromSocketId}`;
 
       // Join both sockets to the room
       socket.join(roomName);
