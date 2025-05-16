@@ -82,6 +82,11 @@ const DuelPage = () => {
     };
   }, [navigate]);
 
+  const skip =  ()=> {
+    console.log("done");
+        socket.emit("Won", { room_id, winner: socket.id });
+  }
+
   const runCode = async () => {
     try {
       let results = [];
@@ -152,6 +157,7 @@ const DuelPage = () => {
           </select>
           <CodeMirror value={code} onChange={setCode} extensions={[language === "JavaScript" ? javascript() : language === "Python" ? python() : java()]} height="350px" />
           <button onClick={runCode} className={styles.runButton}>Run Code</button>
+          <button onClick={skip} className={styles.runButton}>skip</button>
         </div>
         <div className={styles.outputSection}>
           <h3>Test Cases</h3>

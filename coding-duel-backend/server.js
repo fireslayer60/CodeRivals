@@ -160,7 +160,7 @@ io.on("connection", async (socket) => {
           output_cases: outputs[q_id],
         },
       };
-
+      console.log(roomName);
       io.to(roomName).emit("match_found", questionData);
 
     } else {
