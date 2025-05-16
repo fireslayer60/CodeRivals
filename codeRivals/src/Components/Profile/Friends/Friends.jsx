@@ -15,6 +15,42 @@ function Friends() {
 
 // Fetch friend requests when page loads
 useEffect(() => {
+  socket.on("incoming-challenge", ({ fromUsername }) => {
+  toast.info(
+    ({ closeToast }) => (
+      <div>
+        <p><strong>{fromUsername}</strong> challenged you to a match!</p>
+        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "8px" }}>
+          <button
+            style={{ backgroundColor: "#4CAF50", color: "white", border: "none", padding: "6px 10px", borderRadius: "4px" }}
+            onClick={() => {
+              socket.emit("respond-challenge", { fromUsername, accepted: true });
+              closeToast();
+            }}
+          >
+            Accept ✅
+          </button>
+          <button
+            style={{ backgroundColor: "#f44336", color: "white", border: "none", padding: "6px 10px", borderRadius: "4px" }}
+            onClick={() => {
+              socket.emit("respond-challenge", { fromUsername, accepted: false });
+              closeToast();
+            }}
+          >
+            Reject ❌
+          </button>
+        </div>
+      </div>
+    ),
+    {
+      position: "top-center",
+      autoClose: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: false,
+    }
+  );
+});
   socket.on("challenge-response", ({ success, message }) => {
       if (success) toast.success(message);
       else toast.error(message);
@@ -31,17 +67,19 @@ useEffect(() => {
       toast.success(`Match started with ${players.join(" & ")}! Room: ${roomName}`);
       // TODO: Navigate to game screen or setup match state here
     });
+    fetchFriendRequests();
   return () => {
       
       socket.off("challenge-response");
       socket.off("challenge-status");
       socket.off("match-started");
+      socket.off("incoming-challenge")
     };
-  fetchFriendRequests();
+  
 }, []);
 
 const sendMatchRequest =(friend_id) => {
-  socket.emit("send_match_request",({from_id:socket.id,toUsername:friend_id}));
+  socket.emit("send_match_request",({toUsername:friend_id}));
   console.log(socket.id+" "+friend_id);
 }
 

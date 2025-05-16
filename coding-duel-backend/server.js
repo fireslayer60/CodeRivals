@@ -96,6 +96,7 @@ io.on("connection", async (socket) => {
   socket.on("send_match_request", async ({ toUsername }) => {
     // Find friend's socket ID from Redis
     const friendSocketId = await redis.get(`socket:${toUsername}`);
+    
     if (!friendSocketId) {
       socket.emit("challenge-response", { success: false, message: `${toUsername} is offline.` });
       return;
@@ -116,6 +117,8 @@ io.on("connection", async (socket) => {
       socket.emit("challenge-response", { success: false, message: `${toUsername} is currently in a match.` });
       return;
     }
+
+    console.log(friendSocketId+" "+toUsername);
 
     // Send challenge event
     io.to(friendSocketId).emit("incoming-challenge", { fromUsername: username });
