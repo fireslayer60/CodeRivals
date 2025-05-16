@@ -1,5 +1,6 @@
 import React, { useState,useEffect} from 'react';
 import styles from "./FriendStyles.module.css";
+import socket from "../../../socket.js";
 
 function Friends() {
   const [searchUsername, setSearchUsername] = useState("");
@@ -12,8 +13,14 @@ function Friends() {
 
 // Fetch friend requests when page loads
 useEffect(() => {
+  
   fetchFriendRequests();
 }, []);
+
+const sendMatchRequest =(friend_id) => {
+  socket.emit("send_match_request",(socket.id,friend_id));
+  console.log(socket.id+" "+friend_id);
+}
 
 const fetchFriendRequests = async () => {
   try {
@@ -176,12 +183,12 @@ const handleReject = async (requestId) => {
       friends.map((req) => (
         <div key={req.id} className={styles.requestCard}>
           <p><strong>{req.friend}</strong> is your your friend!</p>
-          <button onClick={() => {}} className={styles.acceptButton}>Challenge </button>
+          <button onClick={() => sendMatchRequest(req.friend)} className={styles.acceptButton}>Challenge </button>
           <button onClick={() => handleReject(req.friend)} className={styles.rejectButton}>Remove friend</button>
         </div>
       ))
     ) : (
-      <p>No Friends :(.</p>
+      <p>No Friends :(</p>
     )}
   </div>
   </>

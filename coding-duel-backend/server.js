@@ -10,6 +10,7 @@ import { Console } from "console";
 import authRoutes from "./routes/auth.js";
 import profileRoutes from "./routes/profile.js";
 import friendsRoutes from "./routes/friend.js";
+import { redis } from './redisClient.js';
 
 import fs from "fs";
 import Papa from "papaparse";
@@ -86,7 +87,8 @@ io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
 
   socket.on("join_queue", () => {
-    console.log(`User ${socket.id} joined the queue.`);
+    const username = socket.handshake.query.username;
+    console.log("User connected:", socket.id, "Username:", username);
     queue.push(socket);
 
     if (queue.length >= 2) {

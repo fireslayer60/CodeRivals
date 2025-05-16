@@ -11,6 +11,7 @@ import Leaderboard from "./Components/LeaderBoard/LeaderBoard.jsx";
 function App() {
   useEffect(() => {
     socket.on("connect", () => {
+      
       console.log("User connected: ", socket.id);
     });
     socket.on("disconnect", () => {
