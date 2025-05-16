@@ -153,7 +153,7 @@ io.on("connection", async (socket) => {
       const questionData = {
         roomName,
         player1: socket.id,
-        player2: friendSocketId,
+        player2: fromSocketId,
         question_id: {
           problem: problem[q_id],
           input_cases: inputs[q_id],
