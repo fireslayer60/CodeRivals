@@ -152,8 +152,8 @@ io.on("connection", async (socket) => {
       // Emit the match with the selected question and cases
       const questionData = {
         roomName,
-        player1: player1.id,
-        player2: player2.id,
+        player1: socket.id,
+        player2: fromSocket,
         question_id: {
           problem: problem[q_id],
           input_cases: inputs[q_id],
