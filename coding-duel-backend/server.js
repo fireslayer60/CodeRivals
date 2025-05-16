@@ -208,7 +208,7 @@ io.on("connection", async (socket) => {
 
   socket.on("Won", ({ room_id, winner }) => {
   const sockets = Array.from(io.sockets.adapter.rooms.get(room_id) || []);
-  console.log("Emitting Match Over to:", sockets);
+  console.log("Emitting Match Over to:"+room_id, sockets);
 
   sockets.forEach((id) => {
     io.to(id).emit("Match Over", { winner });
