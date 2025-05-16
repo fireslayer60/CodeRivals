@@ -18,18 +18,7 @@ function LeftSection() {
   const [statust, setStatus] = useState('Click "Find Match" to start');
 
   useEffect(() => {
-    socket.on("match_found", ({ room, player1, player2, question_id }) => {
-      //console.log('Received question:', question_id);
-
-      setStatus(
-        `Matched! Room: ${room} | ${player1} vs ${player2} i am ${socket.id}`
-      );
-      navigate(`/duel?room=${room}`, { state: { question_id } });
-    });
-
-    return () => {
-      socket.off("match_found");
-    };
+    
   }, []);
 
   const findMatch = () => {

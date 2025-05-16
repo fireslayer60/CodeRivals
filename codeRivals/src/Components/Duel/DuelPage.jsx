@@ -66,12 +66,13 @@ const DuelPage = () => {
   
   useEffect(() => {
     const handleMatchOver = ({ winner }) => {
+      console.log("over");
       if (winner === socket.id) {
         alert("Congrats! You Won ");
       } else {
         alert("Sorry, You Lost");
       }
-      setTimeout(() => navigate("/home"), 10000);
+      setTimeout(() => navigate("/home"), 1000);
     };
 
     socket.on("Match Over", handleMatchOver);
@@ -118,6 +119,7 @@ const DuelPage = () => {
 
       setTestResults(results);
       if (allPassed) {
+        console.log("done");
         socket.emit("Won", { room_id, winner: socket.id });
         
       }

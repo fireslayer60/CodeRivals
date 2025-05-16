@@ -8,8 +8,11 @@ import DuelPage from "./Components/Duel/DuelPage.jsx";
 import Login from "./Components/Login/Login.jsx";
 import Profile from "./Components/Profile/Profile.jsx";
 import Leaderboard from "./Components/LeaderBoard/LeaderBoard.jsx";
+import { useNavigate } from "react-router-dom";
+
 
 function App() {
+  const navigate = useNavigate();
   useEffect(() => {
     socket.on("connect", () => {
 
@@ -51,19 +54,28 @@ function App() {
       draggable: false,
     }
   );});
+    socket.on("match_found", ({ room, player1, player2, question_id }) => {
+      console.log('Received question:', question_id);
 
+      navigate(`/duel?room=${room}`, { state: { question_id } });
+    });
     socket.on("disconnect", () => {
       console.log("User disconnected: ", socket.id);
     });
+    
+
+    
     return () => {
       socket.off("connect");
       socket.off("disconnect");
+      socket.off("match_found");
+      socket.off("incoming-challenge");
      
     };
-  });
+  }, [navigate]);
   return (
     <>
-    <Router>
+   
       <Routes>
         <Route path="/" element={<SignUp />} /> {/* SignUp page */}
         <Route path="/Login" element={<Login />} />
@@ -72,7 +84,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
-    </Router>
+
     <ToastContainer/>
     </>
   );

@@ -88,19 +88,7 @@ function Login() {
 
   return (
     <div className={styles.container}>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition={Slide}
-      />
+      
       <div className={styles.signUp}>
         <h1>Hey! There</h1>
         <p>Welcome to Code Rivals Community!</p>

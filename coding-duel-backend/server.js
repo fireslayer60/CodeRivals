@@ -207,9 +207,13 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("Won", ({ room_id, winner }) => {
-    io.to(room_id).emit("Match Over", { winner });
-    io.socketsLeave(room_id);
+  const clients = Array.from(io.sockets.adapter.rooms.get(room_id) || []);
+  clients.forEach((id) => {
+    io.to(id).emit("Match Over", { winner });
   });
+  io.socketsLeave(room_id);
+});
+
 
   socket.on("disconnect", async() => {
     console.log(`User disconnected: ${socket.id}`);
