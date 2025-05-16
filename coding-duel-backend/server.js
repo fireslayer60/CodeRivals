@@ -151,7 +151,7 @@ io.on("connection", async (socket) => {
 
       // Emit the match with the selected question and cases
       const questionData = {
-        roomName,
+        room : roomName,
         player1: socket.id,
         player2: fromSocketId,
         question_id: {
