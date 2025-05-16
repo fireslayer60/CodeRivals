@@ -83,9 +83,16 @@ const extractData = (filePath) => {
 extractData("test.csv");
 const queue = [];
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
   const username = socket.handshake.query.username;
   console.log("User connected:", socket.id, "Username:", username);
+  if (username) {
+    // Set in Redis
+    await redis.set(`socket:${username}`, socket.id);
+
+    // Optional: expire after 5 mins (e.g. in case of unexpected disconnect)
+    // await redis.expire(`socket:${username}`, 300); // 300 seconds = 5 mins
+  }
 
   socket.on("join_queue", () => {
     console.log(`User ${socket.id} joined the queue.`);
@@ -130,8 +137,12 @@ io.on("connection", (socket) => {
     io.socketsLeave(room_id);
   });
 
-  socket.on("disconnect", () => {
+  socket.on("disconnect", async() => {
     console.log(`User disconnected: ${socket.id}`);
+    if (username) {
+      await redis.del(`socket:${username}`);
+     
+    }
     const index = queue.indexOf(socket);
     if (index !== -1) {
       queue.splice(index, 1);
