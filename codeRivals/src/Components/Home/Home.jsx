@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import socket from "../../socket.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./HomeStyles.module.css";
@@ -13,37 +13,28 @@ import "react-toastify/dist/ReactToastify.css";
 function Home() {
   const location = useLocation();
   const navigate = useNavigate();
+  const hasShownToast = useRef(false);
   useEffect(() => {
-    if (location.state?.successMessage) {
-      toast.success(location.state.successMessage, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        transition: Slide,
-      });
+     if (location.state?.successMessage && !hasShownToast.current) {
+    toast.success(location.state.successMessage, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Slide,
+    });
+
+    hasShownToast.current = true;
       navigate(".", { replace: true, state: {} });
     }
   }, [location, navigate]);
   return (
     <div className={styles.homeContainer}>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={true}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition={Slide}
-      />
+      
       <Navbar />
       <div className={styles.homeContent}>
         <div className={styles.leftSection}>
