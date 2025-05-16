@@ -93,6 +93,77 @@ io.on("connection", async (socket) => {
     // Optional: expire after 5 mins (e.g. in case of unexpected disconnect)
     // await redis.expire(`socket:${username}`, 300); // 300 seconds = 5 mins
   }
+  socket.on("send_match_request", async ({ toUsername }) => {
+    // Find friend's socket ID from Redis
+    const friendSocketId = await redis.get(`socket:${toUsername}`);
+    if (!friendSocketId) {
+      socket.emit("challenge-response", { success: false, message: `${toUsername} is offline.` });
+      return;
+    }
+
+    // Use Socket.IO's adapter to get rooms friend is in
+    const friendSocket = io.sockets.sockets.get(friendSocketId);
+    if (!friendSocket) {
+      socket.emit("challenge-response", { success: false, message: `${toUsername} is offline.` });
+      return;
+    }
+
+    // Check if friend is already in any "match:" room
+    const friendRooms = friendSocket.rooms;
+    // socket.rooms always includes the socket.id by default, so filter that out
+    const isInMatch = [...friendRooms].some(room => room.startsWith("match_"));
+    if (isInMatch) {
+      socket.emit("challenge-response", { success: false, message: `${toUsername} is currently in a match.` });
+      return;
+    }
+
+    // Send challenge event
+    io.to(friendSocketId).emit("incoming-challenge", { fromUsername: username });
+    socket.emit("challenge-response", { success: true, message: `Challenge sent to ${toUsername}` });
+  });
+
+  socket.on("respond-challenge", async ({ fromUsername, accepted }) => {
+    const fromSocketId = await redis.get(`socket:${fromUsername}`);
+    if (!fromSocketId) {
+      socket.emit("challenge-status", { success: false, message: `${fromUsername} went offline.` });
+      return;
+    }
+
+    const fromSocket = io.sockets.sockets.get(fromSocketId);
+    if (!fromSocket) {
+      socket.emit("challenge-status", { success: false, message: `${fromUsername} went offline.` });
+      return;
+    }
+
+    if (accepted) {
+      // Create room name deterministically (sorted usernames to avoid duplicates)
+      const players = [username, fromUsername].sort();
+      const roomName = `match_${players[0]}_${players[1]}`;
+
+      // Join both sockets to the room
+      socket.join(roomName);
+      fromSocket.join(roomName);
+
+      const q_id = Math.floor(Math.random() * problem.length);
+
+      // Emit the match with the selected question and cases
+      const questionData = {
+        room,
+        player1: player1.id,
+        player2: player2.id,
+        question_id: {
+          problem: problem[q_id],
+          input_cases: inputs[q_id],
+          output_cases: outputs[q_id],
+        },
+      };
+
+      io.to(room).emit("match_found", questionData);
+
+    } else {
+      io.to(fromSocketId).emit("challenge-status", { success: false, message: `${username} rejected your challenge.` });
+    }
+  });
 
   socket.on("join_queue", () => {
     console.log(`User ${socket.id} joined the queue.`);

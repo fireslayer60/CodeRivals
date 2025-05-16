@@ -1,5 +1,6 @@
 import React, { useState,useEffect} from 'react';
 import styles from "./FriendStyles.module.css";
+import { toast, ToastContainer } from "react-toastify";
 import socket from "../../../socket.js";
 
 function Friends() {
@@ -10,15 +11,37 @@ function Friends() {
 
   const [friendRequests, setFriendRequests] = useState([]);
   const [friends, setFriends] = useState([]);
+  const [incomingChallenge, setIncomingChallenge] = useState(null);
 
 // Fetch friend requests when page loads
 useEffect(() => {
-  
+  socket.on("challenge-response", ({ success, message }) => {
+      if (success) toast.success(message);
+      else toast.error(message);
+    });
+
+    // Listen for challenge status (accept/reject)
+    socket.on("challenge-status", ({ success, message }) => {
+      if (success) toast.success(message);
+      else toast.error(message);
+    });
+
+    // Listen for match start
+    socket.on("match-started", ({ roomName, players }) => {
+      toast.success(`Match started with ${players.join(" & ")}! Room: ${roomName}`);
+      // TODO: Navigate to game screen or setup match state here
+    });
+  return () => {
+      
+      socket.off("challenge-response");
+      socket.off("challenge-status");
+      socket.off("match-started");
+    };
   fetchFriendRequests();
 }, []);
 
 const sendMatchRequest =(friend_id) => {
-  socket.emit("send_match_request",(socket.id,friend_id));
+  socket.emit("send_match_request",({from_id:socket.id,toUsername:friend_id}));
   console.log(socket.id+" "+friend_id);
 }
 
