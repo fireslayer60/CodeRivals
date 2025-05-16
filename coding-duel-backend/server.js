@@ -84,11 +84,12 @@ extractData("test.csv");
 const queue = [];
 
 io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
+  const username = socket.handshake.query.username;
+  console.log("User connected:", socket.id, "Username:", username);
 
   socket.on("join_queue", () => {
-    const username = socket.handshake.query.username;
-    console.log("User connected:", socket.id, "Username:", username);
+    console.log(`User ${socket.id} joined the queue.`);
+    
     queue.push(socket);
 
     if (queue.length >= 2) {
