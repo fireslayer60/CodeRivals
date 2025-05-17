@@ -30,7 +30,7 @@ useEffect(() => {
     // Listen for match start
     socket.on("match-started", ({ roomName, players }) => {
       toast.success(`Match started with ${players.join(" & ")}! Room: ${roomName}`);
-      // TODO: Navigate to game screen or setup match state here
+      
     });
     fetchFriendRequests();
   return () => {
