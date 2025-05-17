@@ -85,7 +85,7 @@ extractData("test.csv");
 const queue = [];
 
 io.on("connection", async (socket) => {
-  const username = socket.handshake.query.username;
+  let username = socket.handshake.query.username;
   console.log("User connected:", socket.id, "Username:", username);
   if (username) {
     // Set in Redis
