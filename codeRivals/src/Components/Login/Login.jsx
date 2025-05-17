@@ -6,6 +6,8 @@ import { auth, provider, signInWithPopup } from "../../firebaseConfig.js";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer, Slide } from "react-toastify";
+
+import socket from "../../socket.js";
 import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
@@ -61,7 +63,10 @@ function Login() {
         `http://${import.meta.env.VITE_AWS_IP}:5000/api/login`,
         userData
       );
+      const curUser = localStorage.getItem("username");
+      
       localStorage.setItem("username", response.data.user.username); 
+      socket.emit("new_Login",{old_user: curUser,new_User:response.data.user.username});
       console.log(response.data.user.username);
       console.log("Login Success:", response.data);
 

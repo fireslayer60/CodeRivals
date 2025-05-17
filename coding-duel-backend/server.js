@@ -11,6 +11,7 @@ import authRoutes from "./routes/auth.js";
 import profileRoutes from "./routes/profile.js";
 import friendsRoutes from "./routes/friend.js";
 import { redis } from './redisClient.js';
+import {change_user} from "./redis/redis_login_change.js";
 
 import fs from "fs";
 import Papa from "papaparse";
@@ -204,6 +205,10 @@ io.on("connection", async (socket) => {
     } else {
       console.log("Not enough players");
     }
+  });
+
+  socket.on("new_Login",({old_User,new_User})=>{
+    change_user(old_User,new_User);
   });
 
   socket.on("Won", ({ room_id, winner }) => {
