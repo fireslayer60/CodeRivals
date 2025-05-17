@@ -208,7 +208,11 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("new_Login",async ({old_User,new_User})=>{
-    await change_user({old_User,new_User});
+    if(!(old_User===new_User)){
+      await change_user({old_User,new_User});
+      username = new_User;
+    }
+    
   });
 
   socket.on("Won", ({ room_id, winner }) => {
