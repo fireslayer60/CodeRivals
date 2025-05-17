@@ -2,6 +2,7 @@ import { redis } from "../redisClient.js";
 
 const change_user = async ({ old_User, new_User }) => {
   try {
+    console.log(old_User);
     const curSocketId = await redis.get(`socket:${old_User}`);
     
     if (curSocketId) {
