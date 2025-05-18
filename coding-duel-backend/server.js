@@ -229,13 +229,13 @@ io.on("connection", async (socket) => {
     const {winner_id,winner_user} = winner;
     const {loser_id,loser_user} = loser;
     const sockets = Array.from(io.sockets.adapter.rooms.get(room_id) || []);
-    const {winnerElo,loserElo} = await getElo(winner_user,loser_user);
+    const {newWinnerElo,newLoserElo} = await getElo(winner_user,loser_user);
     console.log("Emitting Match Over to:"+room_id, sockets);
 
 
 
   sockets.forEach((id) => {
-    io.to(id).emit("Match Over", { winner: winner_id ,winnerElo,loserElo});
+    io.to(id).emit("Match Over", { winner: winner_id ,winnerElo:newWinnerElo,loserElo:newLoserElo});
   });
 
   // Give clients time to receive event before leaving
