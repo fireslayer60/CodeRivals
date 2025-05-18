@@ -12,6 +12,7 @@ import profileRoutes from "./routes/profile.js";
 import friendsRoutes from "./routes/friend.js";
 import { redis } from './redisClient.js';
 import change_user from "./redis/redis_login_change.js";
+import {getElo} from "./utilities/elo.js";
 
 import fs from "fs";
 import Papa from "papaparse";
@@ -153,8 +154,12 @@ io.on("connection", async (socket) => {
       // Emit the match with the selected question and cases
       const questionData = {
         room : roomName,
-        player1: socket.id,
-        player2: fromSocketId,
+        player1: {
+          player1_id:socket.id,
+          player1_user: socket.handshake.query.username},
+        player2: {
+          player2_id:fromSocketId,
+          player2_user: fromSocket.handshake.query.username},
         question_id: {
           problem: problem[q_id],
           input_cases: inputs[q_id],
@@ -215,18 +220,22 @@ io.on("connection", async (socket) => {
     if(!(old_User===new_User)){
       await change_user({old_User,new_User});
       username = new_User;
+      socket.handshake.query.username = username;
     }
     
   });
 
-  socket.on("Won", ({ room_id, winner ,loser}) => {
-  const sockets = Array.from(io.sockets.adapter.rooms.get(room_id) || []);
-  console.log("Emitting Match Over to:"+room_id, sockets);
+  socket.on("Won", async ({ room_id, winner ,loser}) => {
+    const {winner_id,winner_user} = winner;
+    const {loser_id,loser_user} = loser;
+    const sockets = Array.from(io.sockets.adapter.rooms.get(room_id) || []);
+    const {winnerElo,loserElo} = await getElo(winner_user,loser_user);
+    console.log("Emitting Match Over to:"+room_id, sockets);
 
 
 
   sockets.forEach((id) => {
-    io.to(id).emit("Match Over", { winner });
+    io.to(id).emit("Match Over", { winner: winner_id ,winnerElo,loserElo});
   });
 
   // Give clients time to receive event before leaving

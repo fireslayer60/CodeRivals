@@ -6,6 +6,7 @@ import { python } from "@codemirror/lang-python";
 import { java } from "@codemirror/lang-java";
 import styles from "./DuelPageStyles.module.css";
 import socket from "../../socket.js";
+import { toast } from "react-toastify";
 import { languageOptions, handleLanguageChange, question } from "./Judge0/Judge0.js";
 
 const DuelPage = () => {
@@ -25,6 +26,7 @@ const DuelPage = () => {
   const room_id = queryParams.get("room");
   const { question_id,player1,player2 } = location.state || {}; 
   const {player1_id,player1_user} = player1;
+  const {player2_id,player2_user} = player2;
  console.log(player1_id +" "+player1_user);
   let inputCases = question_id.input_cases;
   let outputCases = question_id.output_cases;
@@ -68,12 +70,12 @@ const DuelPage = () => {
   
   useEffect(() => {
     console.log("s");
-    const handleMatchOver = ({ winner }) => {
+    const handleMatchOver = ({ winner,winnerElo,loserElo }) => {
       console.log("over");
       if (winner === socket.id) {
-        alert("Congrats! You Won ");
+        toast.success("Congrats! You Won, new elo is "+winnerElo);
       } else {
-        alert("Sorry, You Lost");
+        toast.error("Sorry, You Lost, New elo is"+ loserElo);
       }
       setTimeout(() => navigate("/home"), 1000);
     };
@@ -86,7 +88,10 @@ const DuelPage = () => {
 
   const skip =  ()=> {
     console.log("done");
-        socket.emit("Won", { room_id, winner: socket.id,loser:  player1===socket.id? player2:player1});
+    const winner = {winner_id:socket.id,winner_user:localStorage.getItem("username")};
+    const loser = {loser_id:player1_id===socket.id? player2_id:player1_id,loser_user:player1_id===socket.id? player2_user:player1_user};
+    console.log(winner,loser);
+        socket.emit("Won", { room_id, winner: winner,loser:  loser});
   }
 
   const runCode = async () => {
