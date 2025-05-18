@@ -186,8 +186,12 @@ io.on("connection", async (socket) => {
       // Emit the match with the selected question and cases
       const questionData = {
         room,
-        player1: player1.id,
-        player2: player2.id,
+        player1: {
+          player1_id:player1.id,
+          player1_user: player1.handshake.query.username},
+        player2: {
+          player2_id:player2.id,
+          player2_user: player2.handshake.query.username},
         question_id: {
           problem: problem[q_id],
           input_cases: inputs[q_id],
@@ -215,9 +219,11 @@ io.on("connection", async (socket) => {
     
   });
 
-  socket.on("Won", ({ room_id, winner }) => {
+  socket.on("Won", ({ room_id, winner ,loser}) => {
   const sockets = Array.from(io.sockets.adapter.rooms.get(room_id) || []);
   console.log("Emitting Match Over to:"+room_id, sockets);
+
+
 
   sockets.forEach((id) => {
     io.to(id).emit("Match Over", { winner });

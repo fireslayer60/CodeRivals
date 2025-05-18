@@ -23,7 +23,9 @@ const DuelPage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const room_id = queryParams.get("room");
-  const { question_id } = location.state || {}; 
+  const { question_id,player1,player2 } = location.state || {}; 
+  const {player1_id,player1_user} = player1;
+ console.log(player1_id +" "+player1_user);
   let inputCases = question_id.input_cases;
   let outputCases = question_id.output_cases;
   inputCases = inputCases.slice(1, inputCases.length - 1); 
@@ -84,7 +86,7 @@ const DuelPage = () => {
 
   const skip =  ()=> {
     console.log("done");
-        socket.emit("Won", { room_id, winner: socket.id });
+        socket.emit("Won", { room_id, winner: socket.id,loser:  player1===socket.id? player2:player1});
   }
 
   const runCode = async () => {
