@@ -75,7 +75,7 @@ const DuelPage = () => {
       if (winner === socket.id) {
         toast.success("Congrats! You Won, new elo is "+winnerElo);
       } else {
-        toast.error("Sorry, You Lost, New elo is"+ loserElo);
+        toast.error("Sorry, You Lost, New elo is " + loserElo);
       }
       setTimeout(() => navigate("/home"), 1000);
     };

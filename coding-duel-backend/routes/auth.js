@@ -109,7 +109,7 @@ router.post(
       );
       const userLeaderBoard = await pool.query(
         "INSERT INTO leaderboard (username,elo,wins,losses) VALUES ($1, $2, $3, $4)",
-        [username, 0, 0, 0]
+        [username, 1000, 0, 0]
       );
 
       res.status(201).json({

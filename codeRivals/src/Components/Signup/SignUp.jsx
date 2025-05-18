@@ -4,6 +4,7 @@ import bg from "../../assets/bg.png";
 import { FcGoogle } from "react-icons/fc";
 import { auth, provider, signInWithPopup } from "../../firebaseConfig.js";
 import { useNavigate } from "react-router-dom";
+import socket from "../../socket.js";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -69,7 +70,9 @@ function SignUp() {
         const data = await response.json();
         if (response.ok) {
           console.log("Signup successful", data);
+          const curUser = localStorage.getItem("username");
           localStorage.setItem("username", UserData.username); 
+          socket.emit("new_Login",{old_User: curUser,new_User:UserData.username});
           navigate("/home");
         } else {
           console.error("Signup failed", data);
