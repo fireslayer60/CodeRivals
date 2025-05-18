@@ -57,7 +57,7 @@ function App() {
     socket.on("match_found", ({ room, player1, player2, question_id }) => {
       console.log('Received question:', question_id);
 
-      navigate(`/duel?room=${room}`, { state: { question_id } });
+      navigate(`/duel?room=${room}`, { state: { question_id,player1,player2 } });
     });
     socket.on("disconnect", () => {
       console.log("User disconnected: ", socket.id);
