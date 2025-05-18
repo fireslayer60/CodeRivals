@@ -28,4 +28,4 @@ const   getElo = async (winner_user,loser_user)=>{
     }
 }
 
-export default {getElo};
+export default getElo;

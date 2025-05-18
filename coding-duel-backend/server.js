@@ -12,7 +12,7 @@ import profileRoutes from "./routes/profile.js";
 import friendsRoutes from "./routes/friend.js";
 import { redis } from './redisClient.js';
 import change_user from "./redis/redis_login_change.js";
-import {getElo} from "./utilities/elo.js";
+import getElo from "./utilities/elo.js";
 
 import fs from "fs";
 import Papa from "papaparse";
