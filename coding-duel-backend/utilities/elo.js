@@ -15,12 +15,13 @@ const   getElo = async (winner_user,loser_user)=>{
     try{
         const winnerElo = await pool.query("SELECT elo FROM leaderboard WHERE username = $1",[winner_user]);
         const loserElo = await pool.query("SELECT elo FROM leaderboard WHERE username = $1",[loser_user]);
-
+        
+        console.log(winnerElo)
         const {newWinnerElo,newLoserElo} = calculateElo(winnerElo,loserElo);
 
         await pool.query("UPDATE leaderboard SET elo = $1, wins = wins + 1 WHERE username = $2", [newWinnerElo, winner_user]);
         await pool.query("UPDATE leaderboard SET elo = $1, losses = losses + 1 WHERE username = $2", [newLoserElo, loser_user]);
-
+        console.log(winnerElo,newLoserElo);
         return {newWinnerElo,newLoserElo};
     }
     catch(err){
