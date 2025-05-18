@@ -13,8 +13,8 @@ function calculateElo(winnerElo, loserElo, k = 32) {
 
 const   getElo = async (winner_user,loser_user)=>{
     try{
-        const winnerElo = await pool.query("SELECT elo FROM leaderbaord WHERE username = $1",[winner_user]);
-        const loserElo = await pool.query("SELECT elo FROM leaderbaord WHERE username = $1",[loser_user]);
+        const winnerElo = await pool.query("SELECT elo FROM leaderboard WHERE username = $1",[winner_user]);
+        const loserElo = await pool.query("SELECT elo FROM leaderboard WHERE username = $1",[loser_user]);
 
         const {newWinnerElo,newLoserElo} = calculateElo(winnerElo,loserElo);
 
