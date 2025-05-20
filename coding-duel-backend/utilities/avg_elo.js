@@ -14,6 +14,7 @@ const avg_elo = async (user1_id,user2_id)=>{
     const user2_elo = user2_res.rows[0].elo;
 
     const avgElo = Math.round((user1_elo + user2_elo) / 2);
+    console.log(avgElo);
 
     return { avgElo };
   } catch (err) {
