@@ -6,7 +6,7 @@ const avg_elo = async (user1_id,user2_id)=>{
     const user2_res = await pool.query("SELECT elo FROM leaderboard WHERE username = $1", [user2_id]);
 
     // Check if both users exist
-    if (winnerRes.rows.length === 0 || loserRes.rows.length === 0) {
+    if (user1_res.rows.length === 0 || user2_res.rows.length === 0) {
       throw new Error("One or both users not found in leaderboard.");
     }
 
