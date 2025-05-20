@@ -36,6 +36,7 @@ router.post(
         password,
         user.rows[0].password
       );
+      const elo = await pool.query("SELECT elo FROM leaderboard WHERE username =$1",[user.rows[0].username]);
 
       if (!validPassword) {
         return res.status(401).json({ error: "Invalid password" });
@@ -49,6 +50,7 @@ router.post(
           username: user.rows[0].username,
           email: user.rows[0].email,
           created_at: user.rows[0].created_at,
+          elo: elo.rows[0].elo,
         },
       });
     } catch (error) {

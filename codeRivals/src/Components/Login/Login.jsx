@@ -67,7 +67,8 @@ function Login() {
       
       localStorage.setItem("username", response.data.user.username); 
       socket.emit("new_Login",{old_User: curUser,new_User:response.data.user.username});
-      console.log(curUser,response.data.user.username);
+      localStorage.setItem("elo",response.data.user.elo);
+      console.log(curUser,response.data.user.username,localStorage.getItem("elo"));
       console.log("Login Success:", response.data);
 
       // Navigate if login is successful
