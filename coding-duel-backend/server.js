@@ -56,9 +56,7 @@ const io = new Server(server, {
   cors: { origin: "*", methods: ["GET", "POST"] },
 });
 
-const inputs = [];
-const outputs = [];
-const problem = [];
+const allQuestions = [];
 // Function to process CSV using streams
 const extractData = (filePath) => {
   // Create a readable stream for the CSV file
@@ -70,19 +68,41 @@ const extractData = (filePath) => {
     dynamicTyping: true, // Automatically convert numbers/booleans
     step: (result) => {
       const row = result.data;
-      inputs.push(row.inputs); // Adjust column name as needed
-      outputs.push(row.outputs); // Adjust column name as needed
-      problem.push(row.question);
+      if(row.rating){
+        allQuestions.push({
+          question:row.question,
+          inputs:row.inputs,
+          output: row.outputs,
+          rating: Number(row.rating),
+        })
+        
+
+      }
+      
     },
-    complete: () => {},
+    complete: () => {
+       console.log("Loaded", allQuestions.length, "questions.");
+    },
     error: (err) => {
       console.error("Error parsing the file:", err.message);
     },
   });
 };
+const getQuestionNearElo = (elo, range = 200) => {
+  const candidates = allQuestions.filter(
+    (q) => Math.abs(q.rating - elo) <= range
+  );
 
+  if (candidates.length === 0) {
+    console.warn("No questions near Elo", elo);
+    return null;
+  }
+
+  const randomIndex = Math.floor(Math.random() * candidates.length);
+  return candidates[randomIndex];
+};
 // Call the function with the path to your CSV file
-extractData("test.csv");
+extractData("test2.csv");
 const queue = [];
 
 io.on("connection", async (socket) => {
@@ -161,9 +181,9 @@ io.on("connection", async (socket) => {
           player2_id:fromSocketId,
           player2_user: fromSocket.handshake.query.username},
         question_id: {
-          problem: problem[q_id],
-          input_cases: inputs[q_id],
-          output_cases: outputs[q_id],
+          problem: allQuestions[q_id].question,
+          input_cases: allQuestions[q_id].inputs,
+          output_cases: allQuestions[q_id].outputs,
         },
       };
       console.log(roomName);
@@ -198,9 +218,9 @@ io.on("connection", async (socket) => {
           player2_id:player2.id,
           player2_user: player2.handshake.query.username},
         question_id: {
-          problem: problem[q_id],
-          input_cases: inputs[q_id],
-          output_cases: outputs[q_id],
+          problem: allQuestions[q_id].question,
+          input_cases: allQuestions[q_id].inputs,
+          output_cases: allQuestions[q_id].outputs,
         },
       };
 
