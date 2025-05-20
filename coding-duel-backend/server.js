@@ -13,7 +13,7 @@ import friendsRoutes from "./routes/friend.js";
 import { redis } from './redisClient.js';
 import change_user from "./redis/redis_login_change.js";
 import getElo from "./utilities/elo.js";
-
+import avg_elo from "./utilities/avg_elo.js";
 import fs from "fs";
 import Papa from "papaparse";
 dotenv.config();
@@ -206,6 +206,8 @@ io.on("connection", async (socket) => {
       const room = `match_${player1.id}_${player2.id}`;
       player1.join(room);
       player2.join(room);
+      const {avgElo} = avg_elo(player1.handshake.query.username,player2.handshake.query.username);
+      console.log(avgElo);
       const q_id = Math.floor(Math.random() * allQuestions.length);
 
       // Emit the match with the selected question and cases
