@@ -206,7 +206,7 @@ io.on("connection", async (socket) => {
       const room = `match_${player1.id}_${player2.id}`;
       player1.join(room);
       player2.join(room);
-      const q_id = Math.floor(Math.random() * problem.length);
+      const q_id = Math.floor(Math.random() * allQuestions.length);
 
       // Emit the match with the selected question and cases
       const questionData = {
