@@ -88,19 +88,7 @@ const extractData = (filePath) => {
     },
   });
 };
-const getQuestionNearElo = (elo, range = 200) => {
-  const candidates = allQuestions.filter(
-    (q) => Math.abs(q.rating - elo) <= range
-  );
 
-  if (candidates.length === 0) {
-    console.warn("No questions near Elo", elo);
-    return null;
-  }
-
-  const randomIndex = Math.floor(Math.random() * candidates.length);
-  return candidates[randomIndex];
-};
 // Call the function with the path to your CSV file
 extractData("test2.csv");
 const queue = [];
@@ -208,7 +196,21 @@ io.on("connection", async (socket) => {
       player2.join(room);
       const avgElo = await avg_elo(player1.handshake.query.username,player2.handshake.query.username);
       console.log(avgElo);
-      const q_id = Math.floor(Math.random() * allQuestions.length);
+      const getQuestionNearElo = (avgElo, range = 200) => {
+        const candidates = allQuestions.filter(
+          (q) => Math.abs(q.rating - elo) <= range
+        );
+
+        if (candidates.length === 0) {
+          console.warn("No questions near Elo", elo);
+          return null;
+        }
+
+        const randomIndex = Math.floor(Math.random() * candidates.length);
+        return candidates[randomIndex];
+      };
+      const candidate = getQuestionNearElo(avgElo);
+      
 
       // Emit the match with the selected question and cases
       const questionData = {
@@ -220,9 +222,9 @@ io.on("connection", async (socket) => {
           player2_id:player2.id,
           player2_user: player2.handshake.query.username},
         question_id: {
-          problem: allQuestions[q_id].question,
-          input_cases: allQuestions[q_id].inputs,
-          output_cases: allQuestions[q_id].output,
+          problem: candidate.question,
+          input_cases: candidate.inputs,
+          output_cases: candidate.output,
         },
       };
 
