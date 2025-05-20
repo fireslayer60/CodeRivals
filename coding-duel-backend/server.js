@@ -183,7 +183,7 @@ io.on("connection", async (socket) => {
         question_id: {
           problem: allQuestions[q_id].question,
           input_cases: allQuestions[q_id].inputs,
-          output_cases: allQuestions[q_id].outputs,
+          output_cases: allQuestions[q_id].output,
         },
       };
       console.log(roomName);
