@@ -198,11 +198,11 @@ io.on("connection", async (socket) => {
       console.log(avgElo);
       const getQuestionNearElo = (avgElo, range = 200) => {
         const candidates = allQuestions.filter(
-          (q) => Math.abs(q.rating - elo) <= range
+          (q) => Math.abs(q.rating - avgElo) <= range
         );
 
         if (candidates.length === 0) {
-          console.warn("No questions near Elo", elo);
+          console.warn("No questions near Elo", avgElo);
           return null;
         }
 
