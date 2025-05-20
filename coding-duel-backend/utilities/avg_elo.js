@@ -16,7 +16,7 @@ const avg_elo = async (user1_id,user2_id)=>{
     const avgElo = Math.round((user1_elo + user2_elo) / 2);
     console.log(avgElo);
 
-    return { avgElo };
+    return avgElo;
   } catch (err) {
     console.error("Elo calculate error:", err);
     return null; // Or throw again if you want it to fail hard

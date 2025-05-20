@@ -206,7 +206,7 @@ io.on("connection", async (socket) => {
       const room = `match_${player1.id}_${player2.id}`;
       player1.join(room);
       player2.join(room);
-      const {avgElo} = avg_elo(player1.handshake.query.username,player2.handshake.query.username);
+      const avgElo = avg_elo(player1.handshake.query.username,player2.handshake.query.username);
       console.log(avgElo);
       const q_id = Math.floor(Math.random() * allQuestions.length);
 
