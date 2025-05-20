@@ -169,7 +169,7 @@ io.on("connection", async (socket) => {
       socket.join(roomName);
       fromSocket.join(roomName);
 
-      const q_id = Math.floor(Math.random() * problem.length);
+      const q_id = Math.floor(Math.random() * allQuestions.length);
 
       // Emit the match with the selected question and cases
       const questionData = {
