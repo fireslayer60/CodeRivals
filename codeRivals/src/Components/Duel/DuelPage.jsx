@@ -73,8 +73,10 @@ const DuelPage = () => {
     const handleMatchOver = ({ winner,winnerElo,loserElo }) => {
       console.log("over");
       if (winner === socket.id) {
+        localStorage.setItem("elo",winnerElo);
         toast.success("Congrats! You Won, new elo is "+winnerElo);
       } else {
+        localStorage.setItem("elo",loserElo);
         toast.error("Sorry, You Lost, New elo is " + loserElo);
       }
       setTimeout(() => navigate("/home"), 1000);
