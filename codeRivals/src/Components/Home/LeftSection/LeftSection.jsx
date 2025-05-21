@@ -3,7 +3,9 @@ import socket from "../../../socket.js";
 import styles from "./LeftStyels.module.css";
 import bronze from "../../../assets/bronze.png";
 import pfp from "../../../assets/meme.jpg";
+import ratingToRank from "./getRating.js";
 import { useNavigate } from "react-router-dom";
+import Rank_img from "./Rank_img/Rank_img.jsx";
 
 const recentGames = [
   { opponent: "Player123", result: "Win", rankChange: "+10" },
@@ -13,13 +15,28 @@ const recentGames = [
 
 function LeftSection() {
   const navigate = useNavigate();
-  const [rank, setRank] = useState("Bronze");
+  
   const [rankProgress, setRankProgress] = useState(60); // Example progress in %
   const [statust, setStatus] = useState('Click "Find Match" to start');
+  const [elo,setElo] = useState();
+  const [rank, setRank] = useState("Unrated");
+  const [subRank, setSubRank] = useState(null);
 
-  useEffect(() => {
-    
-  }, []);
+useEffect(() => {
+  const storedElo = parseInt(localStorage.getItem("elo")) || 0;
+  setElo(storedElo);
+  setrank(storedElo);
+   const { rank: calculatedRank, subRank: calculatedSubRank } = ratingToRank(storedElo);
+  setRank(calculatedRank);
+  setSubRank(calculatedSubRank);
+
+}, [navigate]);
+
+const setrank = (elo) => {
+  setRankProgress(elo % 100);
+  
+};
+
 
   const findMatch = () => {
     setStatus("Searching for a match...");
@@ -30,11 +47,14 @@ function LeftSection() {
   return (
     <div className={styles.leftSection}>
       <p>Current Rank:</p>
-      <p>{rank}</p>
+      <p>{rank} {subRank}</p>
 
       {/* Rank Image */}
       <div className={styles.rankImage}>
-        <img src={bronze} alt={`${rank} Rank`} />
+        <Rank_img rank={rank} subRank={subRank}/>
+      </div>
+      <div>
+        <p>{elo}/{(elo-rankProgress+100)}</p>
       </div>
 
       {/* Progress Bar */}
