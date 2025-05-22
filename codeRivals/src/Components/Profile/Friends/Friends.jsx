@@ -17,19 +17,19 @@ function Friends() {
 useEffect(() => {
  
   socket.on("challenge-response", ({ success, message }) => {
-      if (success) toast.success(message);
-      else toast.error(message);
+      if (success) toast.success(message,{theme:"dark"});
+      else toast.error(message,{theme:"dark"});
     });
 
     // Listen for challenge status (accept/reject)
     socket.on("challenge-status", ({ success, message }) => {
-      if (success) toast.success(message);
-      else toast.error(message);
+      if (success) toast.success(message,{theme:"dark"});
+      else toast.error(message,{theme:"dark"});
     });
 
     // Listen for match start
     socket.on("match-started", ({ roomName, players }) => {
-      toast.success(`Match started with ${players.join(" & ")}! Room: ${roomName}`);
+      toast.success(`Match started with ${players.join(" & ")}! Room: ${roomName}`),{theme:"dark"};
       
     });
     fetchFriendRequests();
