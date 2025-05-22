@@ -20,7 +20,7 @@ function App() {
     });
     socket.on("incoming-challenge", ({ fromUsername }) => {
     console.log(fromUsername);
-  toast.info(
+  toast(
     ({ closeToast }) => (
       <div>
         <p><strong>{fromUsername}</strong> challenged you to a match!</p>
@@ -47,11 +47,14 @@ function App() {
       </div>
     ),
     {
-      position: "top-center",
-      autoClose: false,
+      position: "top-right",
+      autoClose: 10000,
+      hideProgressBar: false,
       closeOnClick: false,
       pauseOnHover: true,
       draggable: false,
+      theme: "dark",
+      progress : {background:"red"},
     }
   );});
     socket.on("match_found", ({ room, player1, player2, question_id }) => {
