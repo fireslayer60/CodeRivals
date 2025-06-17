@@ -1,9 +1,11 @@
 # syntax=docker/dockerfile:1
-FROM golang:1.24
+FROM golang:1.24.4
 
 # Install Java (OpenJDK)
+# Add apt-get clean for a clean cache and ca-certificates for secure downloads
 RUN apt-get update && \
-    apt-get install -y openjdk-17-jdk && \
+    apt-get install -y ca-certificates openjdk-17-jdk && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
@@ -26,3 +28,4 @@ EXPOSE 8080
 
 # Run the binary
 CMD ["go", "run", "main.go"]
+
