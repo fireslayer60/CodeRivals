@@ -105,14 +105,13 @@ const DuelPage = () => {
         const payload = {
           language: "java",
           version: "15.0.2",
-          files: [{ name: "my_cool_code.java", content: code }],
+          files: [{ name: "Main.java", content: code }],
           stdin: testCase.input,
-          args: [],
           compile_timeout: 10000,
           run_timeout: 3000,
         };
 
-        const response = await fetch("https://emkc.org/api/v2/piston/execute", {
+        const response = await fetch("http://localhost:8080/execute", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
