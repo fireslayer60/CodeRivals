@@ -22,8 +22,8 @@ function Friends() {
 
     // Listen for challenge status (accept/reject)
     socket.on("challenge-status", ({ success, message }) => {
-      if (success) toast.success(message);
-      else toast.error(message);
+      if (success) toast.success(message, { theme: "dark" });
+      else toast.error(message, { theme: "dark" });
     });
 
     // Listen for match start
