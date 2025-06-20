@@ -8,24 +8,27 @@ const router = express.Router();
 router.post(
   "/login",
   [
-    // Validate input fields
     body("email").trim().isEmail().withMessage("Invalid email format"),
     body("password").notEmpty().withMessage("Password is required"),
   ],
   async (req, res) => {
-    // Validating request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      const formattedErrors = {};
+      errors.array().forEach((err) => {
+        formattedErrors[err.param] = err.msg;
+      });
+      return res.status(400).json({ errors: formattedErrors });
     }
 
     const { email, password } = req.body;
 
     try {
       // Check if the user exists
-      const user = await pool.query("SELECT * FROM users WHERE email = $1 OR username= $1", [
-        email,
-      ]);
+      const user = await pool.query(
+        "SELECT * FROM users WHERE email = $1 OR username= $1",
+        [email]
+      );
 
       if (user.rows.length === 0) {
         return res.status(401).json({ error: "User does not exist" }); // For 401 Unauthorized
@@ -36,7 +39,10 @@ router.post(
         password,
         user.rows[0].password
       );
-      const elo = await pool.query("SELECT elo FROM leaderboard WHERE username =$1",[user.rows[0].username]);
+      const elo = await pool.query(
+        "SELECT elo FROM leaderboard WHERE username =$1",
+        [user.rows[0].username]
+      );
 
       if (!validPassword) {
         return res.status(401).json({ error: "Invalid password" });
