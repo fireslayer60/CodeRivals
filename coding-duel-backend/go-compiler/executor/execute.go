@@ -22,6 +22,7 @@ func ExecuteCode(req models.CodeRequest) (models.CodeResponse, error) {
 	file := req.Files[0]
 	className := file.Name[:len(file.Name)-len(filepath.Ext(file.Name))]
 	code := file.Content
+	fmt.Println(code)
 
 	tempDir, err := os.MkdirTemp("", "code")
 	if err != nil {

@@ -111,7 +111,7 @@ const DuelPage = () => {
           run_timeout: 3000,
         };
 
-        const response = await fetch(`http://${import.meta.env.VITE_AWS_IP}:8080/execute`, {
+        const response = await fetch('http://localhost:8080/execute', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
