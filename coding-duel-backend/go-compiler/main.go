@@ -12,7 +12,7 @@ import (
 
 //var redisClient *asynq.Client
 
-func main() {
+func nmain() {
 	log.Println(">>> Starting main()")
 
 	log.Println(">>> Initializing Asynq client...")
