@@ -11,19 +11,18 @@ import (
 var redisClient *redis.Client
 
 func init() {
+	log.Println(">>> Initializing Redis client (v9)...")
 	redisClient = redis.NewClient(&redis.Options{
 		Addr: "localhost:6379",
 	})
 
-	// Context with timeout to avoid hanging
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	// Test Redis connection
 	if err := redisClient.Ping(ctx).Err(); err != nil {
-		log.Fatalf("Failed to connect to Redis: %v", err)
+		log.Fatalf("❌ Redis connection failed: %v", err)
 	}
-	log.Println("✅ Redis is connected")
+	log.Println("✅ Redis connection successful")
 }
 
 func GetRedisClient() *redis.Client {

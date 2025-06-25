@@ -13,18 +13,20 @@ import (
 var redisClient *asynq.Client
 
 func main() {
-	// Setup Asynq client
+	log.Println(">>> Starting main()")
+
+	log.Println(">>> Initializing Asynq client...")
 	redisClient = asynq.NewClient(asynq.RedisClientOpt{
 		Addr: "localhost:6379", // or your Redis instance
 	})
+	log.Println(">>> Asynq client created ✅")
 
-	defer redisClient.Close()
-
+	log.Println(">>> Setting up HTTP handlers")
 	http.HandleFunc("/execute", withCORS(executeHandler))
-	http.HandleFunc("/result/", withCORS(resultHandler)) // GET /result/<jobID>
+	http.HandleFunc("/result/", withCORS(resultHandler))
 
-	log.Println("Server running on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Println(">>> Server starting on 0.0.0.0:8080 🚀")
+	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil)) // NOTE: changed from ":8080"
 }
 
 // Handle code execution requests
