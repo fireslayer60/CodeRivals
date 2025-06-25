@@ -7,18 +7,18 @@ import (
 
 	"github.com/fireslayer60/coderivals-executor/models"
 	"github.com/google/uuid"
-	//"github.com/hibiken/asynq"
+	"github.com/hibiken/asynq"
 )
 
-//var redisClient *asynq.Client
+var redisClient *asynq.Client
 
-func nmain() {
+func main() {
 	log.Println(">>> Starting main()")
 
 	log.Println(">>> Initializing Asynq client...")
-	/*redisClient = asynq.NewClient(asynq.RedisClientOpt{
+	redisClient = asynq.NewClient(asynq.RedisClientOpt{
 		Addr: "localhost:6379", // or your Redis instance
-	})*/
+	})
 	log.Println(">>> Asynq client created ✅")
 
 	log.Println(">>> Setting up HTTP handlers")
@@ -44,7 +44,7 @@ func executeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	jobID := uuid.New().String()
-	/*payload, err := json.Marshal(req)
+	payload, err := json.Marshal(req)
 	if err != nil {
 		http.Error(w, "Failed to encode task payload", http.StatusInternalServerError)
 		log.Println("Payload encoding error:", err)
@@ -57,7 +57,7 @@ func executeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to enqueue task: "+err.Error(), http.StatusInternalServerError)
 		log.Println("Queue error:", err)
 		return
-	}*/
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]string{"jobID": jobID})
