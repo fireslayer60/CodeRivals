@@ -1,18 +1,33 @@
 package main
 
 import (
+	"context"
 	"fmt"
-	"net"
 	"time"
+
+	"github.com/redis/go-redis/v9"
 )
 
 func main() {
-	fmt.Println("Dialing Redis directly...")
-	conn, err := net.DialTimeout("tcp", "127.0.0.1:6379", 2*time.Second)
+	fmt.Println(">>> Creating Redis client (v9)...")
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:         "127.0.0.1:6379", // Ensure no DNS/IPv6 issues
+		DialTimeout:  2 * time.Second,  // Protect against hanging
+		ReadTimeout:  2 * time.Second,
+		WriteTimeout: 2 * time.Second,
+	})
+
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
+	fmt.Println(">>> Pinging Redis...")
+
+	pong, err := rdb.Ping(ctx).Result()
 	if err != nil {
-		fmt.Println("❌ Could not connect to Redis:", err)
+		fmt.Println("❌ Redis ping failed:", err)
 		return
 	}
-	defer conn.Close()
-	fmt.Println("✅ Successfully connected to Redis on TCP!")
+
+	fmt.Println("✅ Redis responded:", pong)
 }
