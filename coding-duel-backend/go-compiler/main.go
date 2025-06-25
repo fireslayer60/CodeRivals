@@ -17,7 +17,7 @@ func main() {
 
 	log.Println(">>> Initializing Asynq client...")
 	redisClient = asynq.NewClient(asynq.RedisClientOpt{
-		Addr: "localhost:6379", // or your Redis instance
+		Addr: "127.0.0.1:6379", // or your Redis instance
 	})
 	log.Println(">>> Asynq client created ✅")
 
