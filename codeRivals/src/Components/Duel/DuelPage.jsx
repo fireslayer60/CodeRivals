@@ -97,53 +97,76 @@ const DuelPage = () => {
   }
 
   const runCode = async () => {
-    try {
-      let results = [];
-      let allPassed = true;
+  try {
+    let results = [];
+    let allPassed = true;
+
+    for (const testCase of testCases) {
+      const payload = {
+        language: "java",
+        version: "15.0.2",
+        files: [{ name: "Main.java", content: code }],
+        stdin: testCase.input,
+        compile_timeout: 10000,
+        run_timeout: 3000,
+      };
+
+      // Step 1: Submit job
+      const submitRes = await fetch("http://localhost:8080/execute", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!submitRes.ok) throw new Error(`Submit failed: ${submitRes.status}`);
+      const { jobID } = await submitRes.json();
+
+      // Step 2: Poll for result
+      let result = null;
+      const maxRetries = 20;
+      let attempt = 0;
+
+      while (attempt < maxRetries) {
+        const pollRes = await fetch(`http://localhost:8080/result/${jobID}`);
+        console.log(pollRes);
+        if (pollRes.ok) {
+          result = await pollRes.json();
+          break;
+        }
+        await new Promise((res) => setTimeout(res, 500)); // wait 500ms
+        attempt++;
+      }
+
+      if (!result) throw new Error("Timed out waiting for result");
       
-      for (const testCase of testCases) {
-        const payload = {
-          language: "java",
-          version: "15.0.2",
-          files: [{ name: "Main.java", content: code }],
-          stdin: testCase.input,
-          compile_timeout: 10000,
-          run_timeout: 3000,
-        };
 
-        const response = await fetch('http://localhost:8080/execute', {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+      // Step 3: Compare result
+      const passed = result.run.stdout.trim() === testCase.expected.trim();
+      if (!passed) allPassed = false;
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        
-        const result = await response.json();
-        const passed = result.run.stdout.trim() === testCase.expected.trim();
-        if (!passed) allPassed = false;
-
-        results.push({
-          input: testCase.input,
-          expected: testCase.expected,
-          actual: result.run.stdout.trim(),
-          passed,
-        });
-      }
-
-      setTestResults(results);
-      if (allPassed) {
-        console.log("done");
-        socket.emit("Won", { room_id, winner: socket.id });
-        
-      }
-      setError("");
-    } catch (err) {
-      console.error("Execution error:", err);
-      setError("An error occurred while executing the code.");
-      setTestResults([]);
+      results.push({
+        input: testCase.input,
+        expected: testCase.expected,
+        actual: result.run.stdout.trim(),
+        passed,
+      });
     }
-  };
+
+    setTestResults(results);
+
+    if (allPassed) {
+      console.log("done");
+      socket.emit("Won", { room_id, winner: socket.id });
+    }
+
+    setError("");
+  } catch (err) {
+    console.error("Execution error:", err);
+    setError("An error occurred while executing the code.");
+    setTestResults([]);
+  }
+};
+
 
   return (
     <div className={styles.duelContainer}>
