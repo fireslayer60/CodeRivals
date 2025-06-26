@@ -23,7 +23,7 @@ func main() {
 	http.HandleFunc("/execute", withCORS(executeHandler))
 	http.HandleFunc("/result/", withCORS(resultHandler))
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil))
 }
 
 func executeHandler(w http.ResponseWriter, r *http.Request) {
