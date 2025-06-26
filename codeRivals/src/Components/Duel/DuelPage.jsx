@@ -112,7 +112,7 @@ const DuelPage = () => {
       };
 
       // Step 1: Submit job
-      const submitRes = await fetch("http://localhost:8080/execute", {
+      const submitRes = await fetch(`http://${import.meta.env.VITE_AWS_IP}:8080/execute`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -127,7 +127,7 @@ const DuelPage = () => {
       let attempt = 0;
 
       while (attempt < maxRetries) {
-        const pollRes = await fetch(`http://localhost:8080/result/${jobID}`);
+        const pollRes = await fetch(`http://${import.meta.env.VITE_AWS_IP}:8080/result/${jobID}`);
         console.log(pollRes);
         if (pollRes.ok) {
           result = await pollRes.json();
