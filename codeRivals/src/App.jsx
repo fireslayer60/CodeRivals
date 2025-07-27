@@ -18,7 +18,7 @@ function App() {
 
       console.log("User connected: ", socket.id);
     });
-    socket.on("incoming-challenge", ({ fromUsername }) => {
+    socket.on("incoming-challenge ", ({ fromUsername }) => {
     console.log(fromUsername);
   toast(
     ({ closeToast }) => (
